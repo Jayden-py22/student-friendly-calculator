@@ -20,3 +20,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#testdiv {
+  background-color: #0077cc;
+  width: 400px;
+  margin: 0 auto;
+}
