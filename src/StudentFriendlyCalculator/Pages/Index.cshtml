@@ -8,3 +8,31 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+
+<div> 
+    <h2>Enter Your Name</h2>
+    <input type="text" id="nameInput" placeholder="Your name" />
+    <button onclick="submitName()">Submit</button>
+
+    <p id="response"></p>
+</div>
+
+
+<script>
+    function submitName() {
+        const name = document.getElementById("nameInput").value;
+
+        fetch('/Index?handler=ProcessName', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: name })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("response").innerText = data.message;
+        });
+    }
+</script>
