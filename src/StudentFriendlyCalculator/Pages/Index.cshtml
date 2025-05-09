@@ -1,14 +1,48 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Student Friendly Calculator";
+    
+    ViewData["Title"] = "Home page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>We are in the beam.</p>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-<div id="testdiv">
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro quibusdam illo exercitationem aliquid aut sequi maiores fugiat totam perferendis voluptas quos blanditiis cupiditate possimus quod dolor distinctio, veniam ipsam reprehenderit?</p>
+
+<div> 
+    <!--Simple input box-->
+    <h2>Enter Your Name</h2>
+    <input type="text" id="nameInput" placeholder="Your name" />
+    <!--Button press triggers submitName function-->
+    <button onclick="submitName()">Submit</button>
+
+    <p id="response"></p>
 </div>
+
+
+<script>
+    //submitName function
+    function submitName() {
+        //get the name from the input, turn it into a constant
+        const name = document.getElementById("nameInput").value;
+        //fetch makes an HTTP request, in this case with a "NameSubmission" name for the method
+        fetch('/Index?handler=NameSubmission', {
+            //We set it as POST, we are sending information
+            method: 'POST',
+            //We tell it that we are sending JSON data
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            //Creates a JSON string from our variable
+            body: JSON.stringify({ name: name })
+        })
+        //wait for response
+        .then(response => response.json())
+        //Extract the message, finds the ID in HTML, and sets the content to the message.
+        .then(data => {
+            document.getElementById("response").innerText = data.message;
+        });
+    }
+</script>
