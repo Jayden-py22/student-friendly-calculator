@@ -5,14 +5,37 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
+<div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
+    <div class="calc-select"> <!-- Divider for containing calculator options-->
+        <a class="calc-button" href="#">Standard</a>
+        <a href="calc-button" href="#">Scientific</a>
+        <!-- More calculator buttons here -->
+    </div>
+    <div class="calc-holder">
+        <!-- Calculator contents go here,
+        would likely need to be adjusted using JS
+        depending on selected calculator -->
+    </div>
+    <div class="hist-select"> <!-- Divider for containing history of all operations-->
+        <div class="hist-option">
+            <a class="hist-result" href="#">5</a> <!-- Import result of calculation into current bar of calculator, acting like a number button -->
+            <p class="hist-operation">3 + 2</p>
+            <a href="#">Standard</a> <!-- Optimally, there would be a button present here to switch to the calculator that the operation was completed in -->
+            <!-- etc, etc...-->
+        </div>
+    </div>
+</div
+
+<!-- DEMONSTRATION CONTENT -->
+<!-- Basic template code that came from  -->
+@* <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+</div> *@
 
-
+<!-- DEMONSTRATION CONTENT -->
+<!-- Simple input box for demonstration purposes -->
 <div> 
-    <!--Simple input box-->
     <h2>Enter Your Name</h2>
     <input type="text" id="nameInput" placeholder="Your name" />
     <!--Button press triggers submitName function-->
@@ -21,7 +44,8 @@
     <p id="response"></p>
 </div>
 
-
+<!-- DEMONSTRATION CONTENT -->
+<!-- JS for displaying name from input box. -->
 <script>
     //submitName function
     function submitName() {
