@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using NCalc;
 namespace StudentFriendlyCalculator.Pages;
 
 [IgnoreAntiforgeryToken]
@@ -33,4 +33,39 @@ public class IndexModel : PageModel
         string message = $"Hello, {input.Name}!"; //assembles a new string from our input
         return new JsonResult(new { message }); //returns the message as json data
     }
+
+
+    public IActionResult OnPostCalcSubmission([FromBody] UserInput input)
+    {
+        Console.WriteLine("Received: " + input.Name); // The math expression
+
+        if (string.IsNullOrWhiteSpace(input.Name))
+        {
+            return new JsonResult(new { error = "Expression cannot be empty." });
+        }
+
+        var expr = new Expression(input.Name);
+
+        // Add support for constants like pi
+        expr.EvaluateFunction += (name, args) =>
+        {
+            if (name.ToLower() == "pi")
+                args.Result = Math.PI;
+            if (name.ToLower() == "e")
+                args.Result = Math.E;
+        };
+
+        try
+        {
+            var result = expr.Evaluate();
+            Console.WriteLine($"Result: {result}");
+            return new JsonResult(new { result });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+            return new JsonResult(new { error = "Invalid expression: " + ex.Message });
+        }
+    }
+
 }

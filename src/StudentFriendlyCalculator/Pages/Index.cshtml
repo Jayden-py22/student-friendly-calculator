@@ -36,37 +36,35 @@
 <!-- DEMONSTRATION CONTENT -->
 <!-- Simple input box for demonstration purposes -->
 <div> 
-    <h2>Enter Your Name</h2>
-    <input type="text" id="nameInput" placeholder="Your name" />
+    <h2>Enter Equation</h2>
+    <input type="text" id="CalcSubmission" placeholder="10 x 5" />
     <!--Button press triggers submitName function-->
-    <button onclick="submitName()">Submit</button>
+    <button onclick="calcSubmission()">Submit</button>
 
-    <p id="response"></p>
+    <p id="calcResponse"></p>
 </div>
 
 <!-- DEMONSTRATION CONTENT -->
 <!-- JS for displaying name from input box. -->
 <script>
-    //submitName function
-    function submitName() {
-        //get the name from the input, turn it into a constant
-        const name = document.getElementById("nameInput").value;
-        //fetch makes an HTTP request, in this case with a "NameSubmission" name for the method
-        fetch('/Index?handler=NameSubmission', {
-            //We set it as POST, we are sending information
-            method: 'POST',
-            //We tell it that we are sending JSON data
+    // This handles math expression submission
+    function calcSubmission() {
+        const expr = document.getElementById("CalcSubmission").value;
+
+        fetch("/Index?handler=CalcSubmission", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             },
-            //Creates a JSON string from our variable
-            body: JSON.stringify({ name: name })
+            body: JSON.stringify({ name: expr })
         })
-        //wait for response
-        .then(response => response.json())
-        //Extract the message, finds the ID in HTML, and sets the content to the message.
+        .then(res => res.json())
         .then(data => {
-            document.getElementById("response").innerText = data.message;
+            if (data.result !== undefined) {
+                document.getElementById("calcResponse").innerText = `Result: ${data.result}`;
+            } else {
+                document.getElementById("calcResponse").innerText = `Error: ${data.error}`;
+            }
         });
     }
 </script>
