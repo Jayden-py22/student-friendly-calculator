@@ -47,7 +47,7 @@ public class IndexModel : PageModel
         var expr = new Expression(input.Name);
 
         // Add support for constants like pi
-        expr.EvaluateFunction += (name, args) =>
+        expr.EvaluateParameter += (name, args) =>
         {
             if (name.ToLower() == "pi")
                 args.Result = Math.PI;
