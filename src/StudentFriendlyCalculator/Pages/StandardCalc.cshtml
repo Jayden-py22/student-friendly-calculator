@@ -5,34 +5,6 @@
 }
 <link rel="stylesheet" href="~/css/standardCalc.css" />
 
-<div class="hist-select"> <!-- Divider for containing history of all operations-->
-    <div class="hist-option">
-        <a class="hist-result" href="#">5</a>
-        <!-- Import result of calculation into current bar of calculator, acting like a number button -->
-        <p class="hist-operation">3 + 2</p>
-        <a href="#">Standard</a>
-        <!-- Optimally, there would be a button present here to switch to the calculator that the operation was completed in -->
-        <!-- etc, etc...-->
-    </div>
-</div>
-</div <!-- DEMONSTRATION CONTENT -->
-<!-- Basic template code that came from  -->
-@* <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div> *@
-
-<!-- DEMONSTRATION CONTENT -->
-<!-- Simple input box for demonstration purposes -->
-<div>
-    <h2>Enter Equation</h2>
-    <input type="text" id="CalcSubmission" placeholder="10 x 5" />
-    <!--Button press triggers submitName function-->
-    <button onclick="calcSubmission()">Submit</button>
-
-    <p id="calcResponse"></p>
-</div>
-
 <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
     <div class="calc-select"> <!-- Divider for containing calculator options-->
         <a class="calc-button" href="#">Standard</a>
