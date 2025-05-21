@@ -1,0 +1,28 @@
+#calc-display{
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.calc-interface {
+  display: grid;
+  width: 50%;
+  margin: 0 auto;
+  
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 10px;
+
+  button {
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 20px;
+    padding: 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.2s ease;
+  }
+  button:hover {
+    background-color: #d5d5d5;
+  }
+}

@@ -1,0 +1,181 @@
+﻿@page
+@model StudentFriendlyCalculator.Pages.StandardCalcModel
+@{
+    ViewData["Title"] = "Standard Calculator";
+}
+<link rel="stylesheet" href="~/css/standardCalc.css" />
+
+<div class="hist-select"> <!-- Divider for containing history of all operations-->
+    <div class="hist-option">
+        <a class="hist-result" href="#">5</a>
+        <!-- Import result of calculation into current bar of calculator, acting like a number button -->
+        <p class="hist-operation">3 + 2</p>
+        <a href="#">Standard</a>
+        <!-- Optimally, there would be a button present here to switch to the calculator that the operation was completed in -->
+        <!-- etc, etc...-->
+    </div>
+</div>
+</div <!-- DEMONSTRATION CONTENT -->
+<!-- Basic template code that came from  -->
+@* <div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div> *@
+
+<!-- DEMONSTRATION CONTENT -->
+<!-- Simple input box for demonstration purposes -->
+<div>
+    <h2>Enter Equation</h2>
+    <input type="text" id="CalcSubmission" placeholder="10 x 5" />
+    <!--Button press triggers submitName function-->
+    <button onclick="calcSubmission()">Submit</button>
+
+    <p id="calcResponse"></p>
+</div>
+
+<div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
+    <div class="calc-select"> <!-- Divider for containing calculator options-->
+        <a class="calc-button" href="#">Standard</a>
+        <a href="calc-button" href="#">Scientific</a>
+        <!-- More calculator buttons here -->
+    </div>
+    <div class="calc-holder">
+        <!-- Calculator contents go here,
+        would likely need to be adjusted using JS
+        depending on selected calculator -->
+        <div id="calc-display"></div>
+        <input type="hidden" id="calc-expression" value="" />
+        <div class="calc-interface">
+            
+            
+            <button>(</button>
+            <button>)</button>
+            <button>AC</button>
+            <button>del</button>
+
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>×</button>
+
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>-</button>
+
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>+</button>
+
+            <button>.</button>
+            <button>0</button>
+            <button>=</button>
+            <button>÷</button>
+        </div>
+    </div>
+</div>
+<script>
+    //simply add or delete from the display&expression
+    function appendToDisplay(value) {
+        const displayDiv = document.getElementById("calc-display");
+        if (displayDiv) {
+            displayDiv.innerHTML += value;
+        }
+    }
+
+    function appendToExpression(value) 
+    {
+        const exprElement = document.getElementById("calc-expression");
+        exprElement.value += value;
+    }
+    function deleteFromDisplay() {
+        const displayDiv = document.getElementById("calc-display");
+        if (displayDiv) {
+            displayDiv.innerHTML = displayDiv.innerHTML.slice(0, -1);
+        }
+    }
+
+    function deleteFromExpression() {
+        const exprElement = document.getElementById("calc-expression");
+        exprElement.value = exprElement.value.slice(0, -1);
+    }
+    function initDisplay() {
+        const displayDiv = document.getElementById("calc-display");
+        if (displayDiv) {
+            displayDiv.innerHTML = "";
+        }
+    }
+
+    function initExpression() {
+        const exprElement = document.getElementById("calc-expression");
+        exprElement.value = "";
+    }
+
+    // preprocess the button click event
+    function calcButtonHandler(value) {
+        console.log("Button clicked:", value);
+        if(value == "del"){
+            deleteFromDisplay();
+            deleteFromExpression();
+        }
+        else if(value == "AC"){
+            initDisplay();
+            initExpression();
+        }
+        else if(value == "="){
+            calcSubmission();
+        }
+        else if(value == "×"){
+            appendToDisplay("*");
+            appendToExpression("*");
+        }
+        else if(value == "÷"){
+            appendToDisplay("/");
+            appendToExpression("/");
+        }
+        else {
+            appendToDisplay(value);
+            appendToExpression(value);
+        }
+    }
+
+    // event delegation for the calculator buttons
+    document.addEventListener("DOMContentLoaded", function () {
+        const interfaceDiv = document.querySelector(".calc-interface");
+        if (interfaceDiv) {
+            interfaceDiv.addEventListener("click", function (event) {
+                if (event.target.tagName === "BUTTON") {
+                    const value = event.target.innerHTML.trim();
+                    calcButtonHandler(value);
+                }
+            });
+        }
+    });
+</script>
+
+<!-- DEMONSTRATION CONTENT -->
+<!-- JS for displaying name from input box. -->
+<script>
+    // This handles math expression submission
+    function calcSubmission() {
+        const expr = document.getElementById("calc-expression").value;
+
+        fetch("/Index?handler=CalcSubmission", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name: expr })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.result !== undefined) {
+                    document.getElementById("calc-display").innerText = `${data.result}`;
+                    document.getElementById("calc-expression").value = `${data.result}`;
+                } else {
+                    console.log(data.error);
+                }
+            });
+    }
+</script>
