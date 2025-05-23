@@ -6,17 +6,20 @@
 }
 
 <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
-    <div class="calc-select"> <!-- Divider for containing calculator options-->
-        <a class="calc-button" href="#">Standard</a>
-        <a href="calc-button" href="#">Scientific</a>
+    <div id="calc-select"> <!-- Divider for containing calculator options-->
+        <ul>
+            <a href="#"><li class="calc-button" href="#">Standard</li></a>
+            <a href="#"><li class="calc-button" href="#">Scientific</li></a>
+        </ul
         <!-- More calculator buttons here -->
     </div>
-    <div class="calc-holder">
+    <div id="calc-holder">
+        <p>Add calculator here</p>
         <!-- Calculator contents go here,
         would likely need to be adjusted using JS
         depending on selected calculator -->
     </div>
-    <div class="hist-select"> <!-- Divider for containing history of all operations-->
+    <div id="hist-select"> <!-- Divider for containing history of all operations-->
         <div class="hist-option">
             <a class="hist-result" href="#">5</a> <!-- Import result of calculation into current bar of calculator, acting like a number button -->
             <p class="hist-operation">3 + 2</p>

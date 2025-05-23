@@ -28,3 +28,34 @@ body {
   width: 400px;
   margin: 0 auto;
 }
+
+/* All functional elements of main page styling */
+
+#functional-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Calculator selection tab */
+
+#calc-select { /* Left bar for selection */
+  background-color: #b7b7b7;
+}
+
+#calc-select > ul > li {
+  list-style: none;
+}
+
+/* Calculator tab */
+
+#calc-holder { /* Middle area for calculator holder */
+  background-color: #ffdab7;
+}
+
+/* History tab */
+
+#hist-select { /* Right bar for history */
+  background-color: #b7b7b7;
+}
