@@ -42,6 +42,7 @@ body {
 
 #calc-select { /* Left bar for selection */
   background-color: #b7b7b7;
+  border-radius: 10px;
 }
 
 #calc-select > button {
@@ -51,6 +52,7 @@ body {
   display: inline-block;
   width: 96%;
   text-align: right;
+  border-radius: 10px;
 }
 
 /* Calculator tab */
