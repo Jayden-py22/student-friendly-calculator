@@ -44,8 +44,13 @@ body {
   background-color: #b7b7b7;
 }
 
-#calc-select > ul > li {
-  list-style: none;
+#calc-select > button {
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  display: inline-block;
+  width: 96%;
+  text-align: right;
 }
 
 /* Calculator tab */
