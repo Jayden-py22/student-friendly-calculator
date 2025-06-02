@@ -56,8 +56,9 @@ body {
 
 /* Calculator tab */
 
-#calc-holder { /* Middle area for calculator holder */
+.calc-holder { /* Middle area for calculator holder */
   background-color: #ffdab7;
+  border-radius: 10px;
 }
 
 /* History tab */
