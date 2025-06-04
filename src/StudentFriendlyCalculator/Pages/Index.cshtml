@@ -15,25 +15,13 @@
         <button class="calc-button" id="input-bar" href="#">Input</button>
         <!-- More calculator buttons here -->
     </div>
-    <div id="calc-holder">
-        <p>Add calculator here</p>
-        <!-- Calculator contents go here,
-        would likely need to be adjusted using JS
-        depending on selected calculator -->
-        <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
-    <div class="calc-select"> <!-- Divider for containing calculator options-->
-        <a class="calc-button" href="#">Standard</a>
-        <a href="calc-button" href="#">Scientific</a>
-        <!-- More calculator buttons here -->
-    </div>
     <div class="calc-holder">
         <!-- Calculator contents go here,
         would likely need to be adjusted using JS
         depending on selected calculator -->
-        <div id="calc-display"></div>
+        <div id="calc-display"></div> <!-- Contains result for calculator output -->
         <input type="hidden" id="calc-expression" value="" />
         <div class="calc-interface">
-            
             
             <button>(</button>
             <button>)</button>
@@ -61,8 +49,6 @@
             <button>÷</button>
         </div>
     </div>
-</div>
-    </div>
     <div id="hist-select"> <!-- Divider for containing history of all operations-->
         <div class="hist-option">
             <button class="hist-result">5</button> <!-- Import result of calculation into current bar of calculator, acting like a number button -->
@@ -80,14 +66,14 @@
 
 <!-- DEMONSTRATION CONTENT -->
 <!-- Simple input box for demonstration purposes -->
-<div> 
+@* <div> 
     <h2>Enter Equation</h2>
     <input type="text" id="CalcSubmission" placeholder="10 x 5" />
     <!--Button press triggers submitName function-->
     <button onclick="calcSubmission()">Submit</button>
 
     <p id="calcResponse"></p>
-</div>
+</div> *@
 
 <!-- DEMONSTRATION CONTENT -->
 <!-- JS for displaying name from input box. -->
