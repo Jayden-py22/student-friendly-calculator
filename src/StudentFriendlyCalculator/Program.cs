@@ -1,7 +1,11 @@
 var builder = WebApplication.CreateBuilder(args);
 
-var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
-builder.WebHost.UseUrls($"http://*:{port}");
+// Use PORT from environment in production
+if (builder.Environment.IsProduction())
+{
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
+    builder.WebHost.UseUrls($"http://*:{port}");
+}
 
 // Add services to the container.
 builder.Services.AddRazorPages();
