@@ -1,0 +1,69 @@
+﻿@page
+@model Calculator.Pages.MassConvertertModel
+@{
+     ViewData["Title"] = "Mass Converter";
+}
+<div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
+    <div id="calc-select"> <!-- Divider for containing calculator options-->
+        <button class="calc-button" id="standard" href="#">Standard</button>
+        <button class="calc-button" id="scientific" href="#">Scientific</button>
+        <button class="calc-button" id="programming" href="#">Programming</button>
+        <button class="calc-button" id="unit" href="#">Unit Conversion</button>
+        <button class="calc-button" id="input-bar" href="#">Input</button>
+        <!-- More calculator buttons here -->
+    </div>
+    <div id="calc-holder">
+        <p>Add calculator here</p>
+        <!-- Calculator contents go here,
+        would likely need to be adjusted using JS
+        depending on selected calculator -->
+        <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
+    <div class="calc-select"> <!-- Divider for containing calculator options-->
+        <a class="calc-button" href="#">Standard</a>
+        <a href="calc-button" href="#">Scientific</a>
+        <!-- More calculator buttons here -->
+    </div>
+    <div class="calc-holder">
+        <!-- Calculator contents go here,
+        would likely need to be adjusted using JS
+        depending on selected calculator -->
+        <div id="calc-display"></div>
+        <input type="hidden" id="calc-expression" value="" />
+        <div class="calc-interface">
+            
+            
+            <button>(</button>
+            <button>)</button>
+            <button>AC</button>
+            <button>del</button>
+
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>×</button>
+
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>-</button>
+
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>+</button>
+
+            <button>.</button>
+            <button>0</button>
+            <button>=</button>
+            <button>÷</button>
+        </div>
+    </div>
+</div>
+    </div>
+    <div id="hist-select"> <!-- Divider for containing history of all operations-->
+        <div class="hist-option">
+            <button class="hist-result">5</button> <!-- Import result of calculation into current bar of calculator, acting like a number button -->
+            <p class="hist-operation">= 3 + 2</p>
+        </div>
+    </div>
+</div>
