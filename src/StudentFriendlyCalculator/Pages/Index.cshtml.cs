@@ -1,3 +1,5 @@
+using System.Net.NetworkInformation;
+using Antlr.Runtime;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NCalc;
@@ -27,12 +29,60 @@ public class IndexModel : PageModel
     //the name is defined by its nature. Its an HTTP being sent to the backend, so it starts with "ON"
     //We used the POST method, so it continues to "OnPost"
     //Its name is NameSubmission, so we finish it as "OnPostNameSubmission"
-    public IActionResult OnPostNameSubmission([FromBody] UserInput input)
+    //? Question from Allyn: Does this function actually run? I don't understand when it triggers. I commented it out and the calculator still works as far as I can tell.
+/*    public IActionResult OnPostNameSubmission([FromBody] UserInput input)
     {
-        Console.WriteLine("Received: " + input.Name); //debugging log so we can make sure it is getting things right
-        string message = $"Hello, {input.Name}!"; //assembles a new string from our input
+        Console.WriteLine("Received new input: " + input.Name); //debugging log so we can make sure it is getting things right
+        string message = input.Name; //assembles a new string from our input
         return new JsonResult(new { message }); //returns the message as json data
+    }*/
+
+    //The function below is meant to help parse the user input so that it matches the capitalization NCalc is expecting.
+    //This is proving difficult because I cannot find a list which states NCalc's functions anywhere.
+    //Another unique problem I have is that words are not always separated by spaces, but may be separated by paranthesis or operators. Using the split function would not do, the deliminators are still critical parts of the string.
+    //See Allyn for questions.
+    private string ReformatString(string originalMessage)
+    {
+        originalMessage = originalMessage.ToLower();
+        List<string> strings = new();
+        string parseMe = "";
+        string newMessage = "";
+        foreach (char c in originalMessage)
+        {
+            if (Char.IsLetter(c))
+            {
+                parseMe += c;
+            }
+            else
+            {
+                if (parseMe != "")
+                {
+                    newMessage += capitalizeWord(parseMe);
+                    parseMe = "";
+                }
+                newMessage += c;
+            }
+        }
+        //This next line is just in case the final letter in the string was a letter, not a symbol. The above loop would have never caught such a situation. For example, "pi" or "e" would fit this case.
+        if (parseMe != "")
+        {
+            newMessage += capitalizeWord(parseMe);
+        }
+        Console.WriteLine("Parsed \"" + originalMessage + "\", into:\"" + newMessage + "\"");
+        return newMessage;
     }
+
+    //See Allyn for questions.
+    //Capitalizes the word if it is not a pi or e
+    private string capitalizeWord(string parseMe)
+    {
+        char firstLetter = parseMe[0];
+        string otherLetters = parseMe.Remove(0, 1);
+        parseMe = firstLetter.ToString().ToUpper() + otherLetters;
+        return parseMe;
+    }
+
+
 
 
     public IActionResult OnPostCalcSubmission([FromBody] UserInput input)
@@ -43,6 +93,8 @@ public class IndexModel : PageModel
         {
             return new JsonResult(new { error = "Expression cannot be empty." });
         }
+
+        input.Name = ReformatString(input.Name);
 
         var expr = new Expression(input.Name);
 
@@ -63,6 +115,7 @@ public class IndexModel : PageModel
         }
         catch (Exception ex)
         {
+            Console.WriteLine(ex);
             Console.WriteLine("Error: " + ex.Message);
             return new JsonResult(new { error = "Invalid expression: " + ex.Message });
         }
