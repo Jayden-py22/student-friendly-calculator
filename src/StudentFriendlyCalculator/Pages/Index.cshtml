@@ -188,7 +188,7 @@
 
         const allowedKeys = [
             "0123456789",
-            "+","-","*","/","(",")",".", "^", "!"
+            "+","-","*","/","(",")",".", "^", "!", "%",
             "abcdefghijklmnopqrstuvwxyz",
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         ];
@@ -203,7 +203,7 @@
             e.preventDefault();
             return;
         }
-
+        
         calcButtonHandler(key);
         return;
 
