@@ -140,18 +140,15 @@
         }
     }
 
+    // Called when an operation is executed and adds a new HTML history card to the list
     function AddToHistory(result, expression) {
         const HistoryContainer = document.querySelector('#hist-select');
-        HistoryContainer.insertAdjacentHTML("afterbegin", HistoryTemplate(result, expression)) 
-    }
-
-    function HistoryTemplate(result, expression) {
-        return `
+        HistoryContainer.insertAdjacentHTML("afterbegin", `
         <div class="hist-option">
             <button class="hist-result">${result}</button> <!-- Import result of calculation into current bar of calculator, acting like a number button -->
             <p class="hist-operation">=  ${expression}</p>
         </div>
-        `
+        `) 
     }
 
     document.addEventListener("keydown", function(e) {
