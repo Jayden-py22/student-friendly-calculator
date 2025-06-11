@@ -20,7 +20,7 @@
         would likely need to be adjusted using JS
         depending on selected calculator -->
         <div id="calc-display"></div> <!-- Contains result for calculator output -->
-        <input id="calc-expression" value="" />
+        <input type="hidden" id="calc-expression" value=""/>
         <div class="calc-interface">
             
             <button>(</button>
@@ -120,7 +120,7 @@
 
     //simply add or delete from the display&expression
     function appendToDisplay(value) {
-        const displayDiv = document.getElementById("calc-expression");
+        const displayDiv = document.getElementById("calc-display");
         if (displayDiv) {
             displayDiv.innerHTML += value;
         }
@@ -128,29 +128,29 @@
 
     function appendToExpression(value) 
     {
-        const exprElement = document.getElementById("calc-expression");
+        const exprElement = document.getElementById("calc-display");
         exprElement.value += value;
     }
     function deleteFromDisplay() {
-        const displayDiv = document.getElementById("calc-expression");
+        const displayDiv = document.getElementById("calc-display");
         if (displayDiv) {
             displayDiv.innerHTML = displayDiv.innerHTML.slice(0, -1);
         }
     }
 
     function deleteFromExpression() {
-        const exprElement = document.getElementById("calc-expression");
+        const exprElement = document.getElementById("calc-display");
         exprElement.value = exprElement.value.slice(0, -1);
     }
     function initDisplay() {
-        const displayDiv = document.getElementById("calc-expression");
+        const displayDiv = document.getElementById("calc-display");
         if (displayDiv) {
             displayDiv.innerHTML = "";
         }
     }
 
     function initExpression() {
-        const exprElement = document.getElementById("calc-expression");
+        const exprElement = document.getElementById("calc-display");
         exprElement.value = "";
     }
 
@@ -185,27 +185,29 @@
 
     document.addEventListener("keydown", function(e) {
         const key = e.key; 
-
-        const allowedKeys = [
-            "0123456789",
-            "+","-","*","/","(",")",".", "^", "!", "%",
-            "abcdefghijklmnopqrstuvwxyz",
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        ];
-
         if (key === "Enter") {
             calcButtonHandler("=");
             e.preventDefault();
             return;
         }
+
         if (key === "Backspace") {
             calcButtonHandler("del");
             e.preventDefault();
             return;
         }
-        
-        calcButtonHandler(key);
-        return;
+        const allowedKeys = [
+            ...'1234567890',
+            "+","-","*","/","(",")",".", "^", "!", "%",
+            ...'abcdefghijklmnopqrstuvwxyz',
+            ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        ];
+
+        if (allowedKeys.includes(key)) {
+            calcButtonHandler(key);
+            return;
+        }
+
 
     });
     // event delegation for the calculator buttons
@@ -227,7 +229,8 @@
 
     // This handles math expression submission
     function calcSubmission() {
-        const expr = document.getElementById("calc-expression").value;
+        const expr = document.getElementById("calc-display").innerText;
+        console.log(expr);
 
         fetch("/Index?handler=CalcSubmission", {
             method: "POST",
