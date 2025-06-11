@@ -34,6 +34,7 @@ body {
   grid-template-columns: 1fr 2fr 1fr;
   gap: 1rem;
   width: 100%;
+  height: 500px;
 }
 
 /* Calculator selection tab */
@@ -63,12 +64,19 @@ body {
 
 /* History tab */
 
-#hist-select { /* Right bar for history */
-  background-color: #b7b7b7;
+#hist-select { /* Container for all history elements */
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+  border: 1px solid #aaa;
   border-radius: 10px;
+  background-color: #f8f8f8;
 }
 
-.hist-option {
+.hist-option { /* Individual history elements */
   display: flex;
   flex-direction: row;
   height: 60px;
@@ -80,7 +88,7 @@ body {
   background-color: #dfdfdf;
 }
 
-.hist-result {
+.hist-result { /* Text button for result */
   font-size: 2em;
   border-radius: 10px;
   padding-left: 10px;
@@ -89,7 +97,7 @@ body {
   background-color: #dfdfdf;
 }
 
-.hist-operation {
+.hist-operation { /* Text showing tabulated operation */
   padding-left: 10px;
   padding-right: 10px;
   font-size: 1em;
