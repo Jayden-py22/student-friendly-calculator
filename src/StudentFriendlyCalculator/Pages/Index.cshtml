@@ -57,26 +57,6 @@
     </div>
 </div>
 
-<!-- DEMONSTRATION CONTENT -->
-<!-- Basic template code that came from  -->
-@* <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div> *@
-
-<!-- DEMONSTRATION CONTENT -->
-<!-- Simple input box for demonstration purposes -->
-@* <div> 
-    <h2>Enter Equation</h2>
-    <input type="text" id="CalcSubmission" placeholder="10 x 5" />
-    <!--Button press triggers submitName function-->
-    <button onclick="calcSubmission()">Submit</button>
-
-    <p id="calcResponse"></p>
-</div> *@
-
-<!-- DEMONSTRATION CONTENT -->
-<!-- JS for displaying name from input box. -->
 <script>
     function parse_experession(expression){
         const lower_expr = expression.toLowerCase();
@@ -182,6 +162,19 @@
         }
     }
 
+    function AddToHistory(result, expression) {
+        const HistoryContainer = document.querySelector('#hist-select');
+        HistoryContainer.insertAdjacentHTML("afterbegin", HistoryTemplate(result, expression)) 
+    }
+
+    function HistoryTemplate(result, expression) {
+        return `
+        <div class="hist-option">
+            <button class="hist-result">${result}</button> <!-- Import result of calculation into current bar of calculator, acting like a number button -->
+            <p class="hist-operation">=  ${expression}</p>
+        </div>
+        `
+    }
 
     document.addEventListener("keydown", function(e) {
         const key = e.key; 
@@ -241,6 +234,8 @@
                 if (data.result !== undefined) {
                     document.getElementById("calc-display").innerText = `${data.result}`;
                     document.getElementById("calc-expression").value = `${data.result}`;
+                    @* Add history elements here - Connor *@
+                    AddToHistory(`${data.result}`, expr)
                 } else {
                     console.log(data.error);
                 }
