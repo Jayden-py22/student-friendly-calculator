@@ -20,7 +20,7 @@
         would likely need to be adjusted using JS
         depending on selected calculator -->
         <div id="calc-display"></div> <!-- Contains result for calculator output -->
-        <input type="hidden" id="calc-expression" value="" />
+        <input id="calc-expression" value="" />
         <div class="calc-interface">
             
             <button>(</button>
@@ -101,7 +101,7 @@
 
     //simply add or delete from the display&expression
     function appendToDisplay(value) {
-        const displayDiv = document.getElementById("calc-display");
+        const displayDiv = document.getElementById("calc-expression");
         if (displayDiv) {
             displayDiv.innerHTML += value;
         }
@@ -113,7 +113,7 @@
         exprElement.value += value;
     }
     function deleteFromDisplay() {
-        const displayDiv = document.getElementById("calc-display");
+        const displayDiv = document.getElementById("calc-expression");
         if (displayDiv) {
             displayDiv.innerHTML = displayDiv.innerHTML.slice(0, -1);
         }
@@ -124,7 +124,7 @@
         exprElement.value = exprElement.value.slice(0, -1);
     }
     function initDisplay() {
-        const displayDiv = document.getElementById("calc-display");
+        const displayDiv = document.getElementById("calc-expression");
         if (displayDiv) {
             displayDiv.innerHTML = "";
         }
@@ -162,7 +162,6 @@
             appendToExpression(value);
         }
     }
-
     // event delegation for the calculator buttons
     document.addEventListener("DOMContentLoaded", function () {
         const interfaceDiv = document.querySelector(".calc-interface");
@@ -175,6 +174,10 @@
             });
         }
     });
+
+
+
+
 
     // This handles math expression submission
     function calcSubmission() {
@@ -197,4 +200,11 @@
                 }
             });
     }
+    // handling user pressing enter to start operation
+    const inputBox = document.getElementById("calc-expression")
+    inputBox.addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            calcSubmission()
+        }
+    });
 </script>
