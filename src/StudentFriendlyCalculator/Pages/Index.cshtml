@@ -95,28 +95,6 @@
         });
         return mapped.join("")
     }
-    // This handles math expression submission
-    function calcSubmission() {
-        const expr = document.getElementById("calc-display").innerText;
-        parsed_expr = parse_expression(expr)
-        functionized_expr = functionize_expression(parsed_expr)
-
-        fetch("/Index?handler=CalcSubmission", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name: functionized_expr })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.result !== undefined) {
-                document.getElementById("calcResponse").innerText = `Result: ${data.result}`;
-            } else {
-                document.getElementById("calcResponse").innerText = `Error: ${data.error}`;
-            }
-        });
-    }
 
     //simply add or delete from the display&expression
     function appendToDisplay(value) {
@@ -169,7 +147,7 @@
             calcSubmission();
         }
         else if(value == "×"){
-            appendToDisplay("x");
+            appendToDisplay("×");
             appendToExpression("*");
         }
         else if(value == "÷"){
