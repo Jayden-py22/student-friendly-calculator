@@ -25,18 +25,6 @@ public class IndexModel : PageModel
         public required string Name { get; set; }
     }
 
-    //script for sending our return message from the input
-    //the name is defined by its nature. Its an HTTP being sent to the backend, so it starts with "ON"
-    //We used the POST method, so it continues to "OnPost"
-    //Its name is NameSubmission, so we finish it as "OnPostNameSubmission"
-    //? Question from Allyn: Does this function actually run? I don't understand when it triggers. I commented it out and the calculator still works as far as I can tell.
-/*    public IActionResult OnPostNameSubmission([FromBody] UserInput input)
-    {
-        Console.WriteLine("Received new input: " + input.Name); //debugging log so we can make sure it is getting things right
-        string message = input.Name; //assembles a new string from our input
-        return new JsonResult(new { message }); //returns the message as json data
-    }*/
-
     //The function below is meant to help parse the user input so that it matches the capitalization NCalc is expecting.
     //This is proving difficult because I cannot find a list which states NCalc's functions anywhere.
     //Another unique problem I have is that words are not always separated by spaces, but may be separated by paranthesis or operators. Using the split function would not do, the deliminators are still critical parts of the string.
@@ -60,6 +48,7 @@ public class IndexModel : PageModel
                     newMessage += capitalizeWord(parseMe);
                     parseMe = "";
                 }
+                if (parseMe = "x")
                 newMessage += c;
             }
         }
