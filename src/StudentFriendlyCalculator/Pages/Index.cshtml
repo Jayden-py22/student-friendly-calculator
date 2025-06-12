@@ -33,7 +33,7 @@
             <button>7</button>
             <button>8</button>
             <button>9</button>
-            <button>×</button>
+            <button>*</button>
 
             <button>4</button>
             <button>5</button>
@@ -87,6 +87,7 @@
         const exprElement = document.getElementById("calc-display");
         exprElement.value += value;
     }
+
     function deleteFromDisplay() {
         const displayDiv = document.getElementById("calc-display");
         if (displayDiv) {
@@ -98,6 +99,7 @@
         const exprElement = document.getElementById("calc-display");
         exprElement.value = exprElement.value.slice(0, -1);
     }
+
     function initDisplay() {
         const displayDiv = document.getElementById("calc-display");
         if (displayDiv) {
@@ -142,15 +144,34 @@
     function AddToHistory(result, expression) {
         if ( result !== expression ) {
             const HistoryContainer = document.querySelector('#hist-select');
-        HistoryContainer.insertAdjacentHTML("afterbegin", `
-        <div class="hist-option">
-            <button class="hist-result">${result}</button> <!-- Import result of calculation into current bar of calculator, acting like a number button -->
-            <p class="hist-operation">=  ${expression}</p>
-        </div>
-        `) 
+            HistoryContainer.insertAdjacentHTML("afterbegin", `
+                <div class="hist-option">
+                    <div class="hist-left">
+                    <button class="hist-result">${result}</button>
+                    <p class="hist-operation">=${expression}</p>
+                    </div>
+                    <button class="hist-delete">X</button>
+                </div>
+                `);
         }
     }
+    
+    // Functionality to import result from & delete history card
+    document.querySelector("#hist-select").addEventListener("click", (event) => {
+        const clickedElement = event.target;
 
+        if (clickedElement.classList.contains("hist-result")) {
+            const result = clickedElement.textContent;
+            calcButtonHandler(result);
+        } else if (clickedElement.classList.contains("hist-delete")) {
+            const histCard = clickedElement.closest(".hist-option");
+            if (histCard) {
+                histCard.remove();
+            }
+        }
+    });
+
+    // Check for button press events to input into calculator
     document.addEventListener("keydown", function(e) {
         const key = e.key; 
 
@@ -172,13 +193,16 @@
             e.preventDefault();
             return;
         }
+
         if(allowedKeys.includes(key)){
             calcButtonHandler(key);
         }
+
         return;
 
     });
-    // event delegation for the calculator buttons
+
+    // Event delegation for the calculator buttons
     document.addEventListener("DOMContentLoaded", function () {
         const interfaceDiv = document.querySelector(".calc-interface");
         if (interfaceDiv) {
@@ -190,10 +214,6 @@
             });
         }
     });
-
-
-
-
 
     // This handles math expression submission
     function calcSubmission() {
