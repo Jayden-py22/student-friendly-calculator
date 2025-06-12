@@ -156,13 +156,18 @@
         }
     }
     
-    // Import result from history element to use in calculator
+    // Functionality to import result from & delete history card
     document.querySelector("#hist-select").addEventListener("click", (event) => {
         const clickedElement = event.target;
 
         if (clickedElement.classList.contains("hist-result")) {
             const result = clickedElement.textContent;
             calcButtonHandler(result);
+        } else if (clickedElement.classList.contains("hist-delete")) {
+            const histCard = clickedElement.closest(".hist-option");
+            if (histCard) {
+                histCard.remove();
+            }
         }
     });
 
