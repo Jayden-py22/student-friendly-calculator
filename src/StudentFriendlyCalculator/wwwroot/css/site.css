@@ -40,8 +40,9 @@ body {
 /* Calculator selection tab */
 
 #calc-select { /* Left bar for selection */
-  background-color: #b7b7b7;
+  border: 1px solid #aaa;
   border-radius: 10px;
+  background-color: #f8f8f8;
 }
 
 #calc-select > button {
@@ -76,30 +77,44 @@ body {
   background-color: #f8f8f8;
 }
 
-.hist-option { /* Individual history elements */
+.hist-option {
   display: flex;
   flex-direction: row;
-  height: 60px;
   align-items: center;
+  justify-content: space-between;
+  height: 60px;
   border-radius: 10px;
   margin: 5px;
+  padding: 0 10px;
   text-align: center;
   border: 1px solid #ff881a;
   background-color: #dfdfdf;
 }
 
-.hist-result { /* Text button for result */
+.hist-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.hist-result {
   font-size: 2em;
   border-radius: 10px;
-  padding-left: 10px;
   border: none;
   color: rgb(0, 0, 0);
   background-color: #dfdfdf;
 }
 
-.hist-operation { /* Text showing tabulated operation */
-  padding-left: 10px;
-  padding-right: 10px;
+.hist-operation {
   font-size: 1em;
   color: rgb(89, 89, 89);
+}
+
+.hist-delete {
+  border: 1px solid red;
+  color: red;
+  border-radius: 4px;
+  background: none;
+  padding: 4px 8px;
 }

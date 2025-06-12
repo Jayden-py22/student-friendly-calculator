@@ -144,12 +144,15 @@
     function AddToHistory(result, expression) {
         if ( result !== expression ) {
             const HistoryContainer = document.querySelector('#hist-select');
-        HistoryContainer.insertAdjacentHTML("afterbegin", `
-        <div class="hist-option">
-            <button class="hist-result">${result}</button> <!-- Import result of calculation into current bar of calculator, acting like a number button -->
-            <p class="hist-operation">=${expression}</p>
-        </div>
-        `) 
+            HistoryContainer.insertAdjacentHTML("afterbegin", `
+                <div class="hist-option">
+                    <div class="hist-left">
+                    <button class="hist-result">${result}</button>
+                    <p class="hist-operation">=${expression}</p>
+                    </div>
+                    <button class="hist-delete">X</button>
+                </div>
+                `);
         }
     }
     
