@@ -48,7 +48,7 @@ public class IndexModel : PageModel
                     newMessage += capitalizeWord(parseMe);
                     parseMe = "";
                 }
-                if (parseMe = "x")
+                if (parseMe != "x")
                 newMessage += c;
             }
         }
