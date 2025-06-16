@@ -52,6 +52,7 @@
         </div>
     </div>
     <div id="hist-select"> <!-- Divider for containing history of all operations-->
+        <button id="clear-hist">Clear History</button>
     </div>
 </div>
 
@@ -140,22 +141,55 @@
         }
     }
 
-    // Called when an operation is executed and adds a new HTML history card to the list
+    let histlist = [];
+
+    // Called when an operation is executed to render history and add to localStorage
     function AddToHistory(result, expression) {
         if ( result !== expression ) {
-            const HistoryContainer = document.querySelector('#hist-select');
-            HistoryContainer.insertAdjacentHTML("afterbegin", `
-                <div class="hist-option">
-                    <div class="hist-left">
+            RenderHistory(result, expression)
+            histlist.push([result, expression]);
+            SaveHistory();
+        }
+    }
+
+    // Adds additional history card
+    function RenderHistory(result, expression) {
+        const index = histlist.length;
+        const container = document.getElementById("hist-select");
+        container.insertAdjacentHTML("afterbegin", `
+            <div class="hist-option" data-index="${index}">
+                <div class="hist-left">
                     <button class="hist-result">${result}</button>
                     <p class="hist-operation">=${expression}</p>
+                </div>
+                <button class="hist-delete">X</button>
+            </div>
+        `);
+    }
+
+    // Rerenders all history cards when needed
+    function RenderFullHistory() {
+        const HistoryContainer = document.querySelector('#hist-select');
+        HistoryContainer.innerHTML = `<button id="clear-hist">Clear History</button>`;
+        histlist.forEach(([result, expression], index) => {
+            HistoryContainer.insertAdjacentHTML("afterbegin", `
+                <div class="hist-option" data-index="${index}">
+                    <div class="hist-left">
+                        <button class="hist-result">${result}</button>
+                        <p class="hist-operation">=${expression}</p>
                     </div>
                     <button class="hist-delete">X</button>
                 </div>
-                `);
-        }
+            `);
+        });
+
+        document.querySelector("#clear-hist").addEventListener("click", () => {
+            localStorage.removeItem("calc-history-list");
+            histlist = [];
+            RenderFullHistory();
+        });
     }
-    
+
     // Functionality to import result from & delete history card
     document.querySelector("#hist-select").addEventListener("click", (event) => {
         const clickedElement = event.target;
@@ -166,9 +200,35 @@
         } else if (clickedElement.classList.contains("hist-delete")) {
             const histCard = clickedElement.closest(".hist-option");
             if (histCard) {
-                histCard.remove();
+                const index = parseInt(histCard.dataset.index);
+                if (!isNaN(index)) {
+                    histlist.splice(index, 1);
+                    SaveHistory();
+                }
+                RenderFullHistory();
             }
         }
+    });
+
+    // Saves history content to localStorage
+    function SaveHistory() {
+        localStorage.setItem("calc-history-list", JSON.stringify(histlist));
+    }
+
+    // Ran at page load to parse localStorage
+    function LoadHistory() {
+        const saved = localStorage.getItem("calc-history-list");
+        if (saved) {
+            histlist = JSON.parse(saved);
+            RenderFullHistory();
+        }
+    }
+    
+    // Clear all history button
+    document.querySelector("#clear-hist").addEventListener("click", () => {
+        localStorage.removeItem("calc-history-list");
+        histlist = [];
+        RenderFullHistory();
     });
 
     // Check for button press events to input into calculator
@@ -202,8 +262,9 @@
 
     });
 
-    // Event delegation for the calculator buttons
+    // Event delegation for the calculator buttons; all content inside runs at page load
     document.addEventListener("DOMContentLoaded", function () {
+        LoadHistory();
         const interfaceDiv = document.querySelector(".calc-interface");
         if (interfaceDiv) {
             interfaceDiv.addEventListener("click", function (event) {
