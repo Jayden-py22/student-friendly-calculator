@@ -22,55 +22,56 @@
         <div id="calc-display-back"> <!-- For use in bg styling only -->
             <div id="calc-display"> <!-- Contains result for calculator output --></div> 
         </div>
-        <input type="hidden" id="calc-expression" value=""/></input>
         <div class="calc-interface">
-            
+            <!-- First Row buttons  -->
             <button>(</button>
             <button>)</button>
             <button>AC</button>
             <button>del</button>
-
+            <!-- Second Row buttons  -->
             <button>7</button>
             <button>8</button>
             <button>9</button>
-            <button>*</button>
-
+            <button>×</button>
+            <!-- Third Row buttons  -->
             <button>4</button>
             <button>5</button>
             <button>6</button>
             <button>-</button>
-
+            <!-- Fourth Row buttons  -->
             <button>1</button>
             <button>2</button>
             <button>3</button>
             <button>+</button>
-
+            <!-- Fifth Row buttons  -->
             <button>.</button>
             <button>0</button>
             <button>=</button>
-            <button>/</button>
+            <button>÷</button>
         </div>
     </div>
     <div id="hist-select"> <!-- Divider for containing history of all operations-->
     </div>
 </div>
 
+<!-- This script handles parsing the math expression to standardize inputs so that users can write more naturally without upsetting NCalc-->
 <script>
-    function parse_experession(expression){
+    function parse_expression(expression){
         const lower_expr = expression.toLowerCase();
         tokens = lower_expr.split(/(\(|\)|sin|cos|tan|pi|\+|\×|-|÷)/)
-
+        console.log("Pre-parse:", {expression})
         const map = {
             "sin": "Sin",
             "cos": "Cos",
             "tan": "Tan",
-            "pi":  "PI",
-            "÷":   "/",
+            "pi": "PI",
+            "÷": "/",
             "×": "*"
         };
         const mapped = tokens.map(t => {
             return map[t] !== undefined ? map[t] : t;
         });
+        console.log("Parsed:", mapped)
         return mapped.join("")
     }
 
@@ -82,22 +83,11 @@
         }
     }
 
-    function appendToExpression(value) 
-    {
-        const exprElement = document.getElementById("calc-display");
-        exprElement.value += value;
-    }
-
     function deleteFromDisplay() {
         const displayDiv = document.getElementById("calc-display");
         if (displayDiv) {
             displayDiv.innerHTML = displayDiv.innerHTML.slice(0, -1);
         }
-    }
-
-    function deleteFromExpression() {
-        const exprElement = document.getElementById("calc-display");
-        exprElement.value = exprElement.value.slice(0, -1);
     }
 
     function initDisplay() {
@@ -107,36 +97,27 @@
         }
     }
 
-    function initExpression() {
-        const exprElement = document.getElementById("calc-display");
-        exprElement.value = "";
-    }
 
     // preprocess the button click event
     function calcButtonHandler(value) {
         console.log("Button clicked:", value);
         if(value == "del"){
             deleteFromDisplay();
-            deleteFromExpression();
         }
         else if(value == "AC"){
             initDisplay();
-            initExpression();
         }
         else if(value == "="){
             calcSubmission();
         }
         else if(value == "×"){
             appendToDisplay("×");
-            appendToExpression("*");
         }
         else if(value == "÷"){
             appendToDisplay("÷");
-            appendToExpression("/");
         }
         else {
             appendToDisplay(value);
-            appendToExpression(value);
         }
     }
 
@@ -218,6 +199,7 @@
     // This handles math expression submission
     function calcSubmission() {
         const expr = document.getElementById("calc-display").innerText;
+        const parsedExpr = parse_expression(expr);
         console.log(expr);
 
         fetch("/Index?handler=CalcSubmission", {
@@ -225,22 +207,21 @@
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ name: expr })
+            body: JSON.stringify({ name: parsedExpr })
         })
             .then(res => res.json())
             .then(data => {
                 if (data.result !== undefined) {
                     document.getElementById("calc-display").innerText = `${data.result}`;
-                    document.getElementById("calc-expression").value = `${data.result}`;
                     @* Add history elements here - Connor *@
-                    AddToHistory(`${data.result}`, expr)
+                    AddToHistory(`${data.result}`, expr);
                 } else {
                     console.log(data.error);
                 }
             });
     }
     // handling user pressing enter to start operation
-    const inputBox = document.getElementById("calc-expression")
+    const inputBox = document.getElementById("calc-display")
     inputBox.addEventListener("keyup", function(event) {
         if (event.key === "Enter") {
             calcSubmission()
