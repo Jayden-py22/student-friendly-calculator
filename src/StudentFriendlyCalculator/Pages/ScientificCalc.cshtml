@@ -1,14 +1,14 @@
-﻿@page
-@model StudentFriendlyCalculator.Pages.StandardCalcModel
+@page
+@model StudentFriendlyCalculator.Pages.ScientificCalcModel
 @{
-    ViewData["Title"] = "Standard Calculator";
+    ViewData["Title"] = "Scientific Calculator";
 }
-<link rel="stylesheet" href="~/css/standardCalc.css" />
+<link rel="stylesheet" href="~/css/scientificCalc.css" />
 
 <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
     <div class="calc-select"> <!-- Divider for containing calculator options-->
-        <a class="calc-button" href="#">Standard</a>
-        <a class="calc-button" href="ScientificCalc.cshtml">Scientific</a>
+        <a class="calc-button" href="StandardCalc.cshtml">Standard</a>
+        <a class="calc-button" href="#">Scientific</a>
         <!-- More calculator buttons here -->
     </div>
     <div class="calc-holder">
