@@ -191,8 +191,8 @@ function LoadHistory() {
     const saved = localStorage.getItem("calc-history-list");
     if (saved) {
         histlist = JSON.parse(saved);
-        RenderFullHistory();
     }
+    RenderFullHistory();
 }
 
 // Clear all history button
