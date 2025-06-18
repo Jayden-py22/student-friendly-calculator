@@ -25,6 +25,7 @@ public class IndexModel : PageModel
         public required string Name { get; set; }
     }
 
+
     //The function below is meant to help parse the user input so that it matches the capitalization NCalc is expecting.
     //This is proving difficult because I cannot find a list which states NCalc's functions anywhere.
     //Another unique problem I have is that words are not always separated by spaces, but may be separated by paranthesis or operators. Using the split function would not do, the deliminators are still critical parts of the string.
@@ -49,7 +50,7 @@ public class IndexModel : PageModel
                     parseMe = "";
                 }
                 if (parseMe != "x")
-                newMessage += c;
+                    newMessage += c;
             }
         }
         //This next line is just in case the final letter in the string was a letter, not a symbol. The above loop would have never caught such a situation. For example, "pi" or "e" would fit this case.
@@ -61,6 +62,7 @@ public class IndexModel : PageModel
         return newMessage;
     }
 
+
     //See Allyn for questions.
     //Capitalizes the word if it is not a pi or e
     private string capitalizeWord(string parseMe)
@@ -70,8 +72,6 @@ public class IndexModel : PageModel
         parseMe = firstLetter.ToString().ToUpper() + otherLetters;
         return parseMe;
     }
-
-
 
 
     public IActionResult OnPostCalcSubmission([FromBody] UserInput input)
