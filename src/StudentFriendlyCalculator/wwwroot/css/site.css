@@ -128,7 +128,7 @@ body {
   padding: 4px 8px;
 }
 
-#clear-hist {
+.clear-hist {
   padding: 10px;
   margin: 5px;
   border: 1px solid #ff1a1a;
@@ -137,4 +137,10 @@ body {
   width: 96%;
   text-align: left;
   border-radius: 10px;
+}
+
+/* Utility styles */
+
+#hide {
+  display: none;
 }

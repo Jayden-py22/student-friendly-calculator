@@ -127,12 +127,14 @@ function RenderHistory(result, expression) {
             <button class="hist-delete">X</button>
         </div>
     `);
+    const clearAll = document.querySelector(".clear-hist");
+    clearAll.removeAttribute("id");
 }
 
 // Rerenders all history cards when needed
 function RenderFullHistory() {
     const HistoryContainer = document.querySelector('#hist-select');
-    HistoryContainer.innerHTML = `<button id="clear-hist">Clear History</button>`;
+    HistoryContainer.innerHTML = `<button class="clear-hist">Clear All History</button>`;
     histlist.forEach(([result, expression], index) => {
         HistoryContainer.insertAdjacentHTML("afterbegin", `
             <div class="hist-option" data-index="${index}">
@@ -145,7 +147,14 @@ function RenderFullHistory() {
         `);
     });
 
-    document.querySelector("#clear-hist").addEventListener("click", () => {
+    const clearAll = document.querySelector(".clear-hist");
+    if (histlist.length != 0) {
+        clearAll.removeAttribute("id");
+    } else {
+        clearAll.id = "hide";
+    }
+
+    document.querySelector(".clear-hist").addEventListener("click", () => {
         localStorage.removeItem("calc-history-list");
         histlist = [];
         RenderFullHistory();
@@ -187,7 +196,7 @@ function LoadHistory() {
 }
 
 // Clear all history button
-document.querySelector("#clear-hist").addEventListener("click", () => {
+document.querySelector(".clear-hist").addEventListener("click", () => {
     localStorage.removeItem("calc-history-list");
     histlist = [];
     RenderFullHistory();
