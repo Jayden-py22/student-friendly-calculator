@@ -4,7 +4,7 @@
 // Write your JavaScript code.
 function parse_expression(expression){
     const lower_expr = expression.toLowerCase();
-    tokens = lower_expr.split(/(\(|\)|arcsin|arccos|arctan|log|ln|sin|cos|tan|pi|\+|\×|-|÷)/)
+    let tokens = lower_expr.split(/(\(|\)|arcsin|arccos|arctan|log|ln|sin|cos|tan|pi|\+|\×|-|÷)/)
     tokens = tokens.filter(t => t !== '');
     // console.log("Pre-parse:", {expression})
     const map = {
@@ -16,7 +16,6 @@ function parse_expression(expression){
         "arctan": "Atan",
         "ln": "Ln",
         "log": "Log",
-        "arctan": "Atan",
         "pi": "PI",
         "π": "PI",
         "÷": "/",
