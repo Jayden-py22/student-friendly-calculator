@@ -1,9 +1,11 @@
 @page
-@model StudentFriendlyCalculator.Pages.ScientificCalcModel
+@model IndexModel
 @{
-    ViewData["Title"] = "Scientific Calculator";
+
+    ViewData["Title"] = "Calculator";
 }
 <link rel="stylesheet" href="~/css/scientificCalc.css" />
+<link rel="stylesheet" href="~/css/site.css" />
 
 <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
     <div id="calc-select"> <!-- Divider for containing calculator options-->
@@ -22,42 +24,41 @@
             <input id="calc-display">
         </div>
         <div class="calc-interface">
-            <!-- Row 1 -->
-            <button>arcsin</button>
-            <button>arccos</button>
-            <button>arctan</button>
-            <button>sin</button>
+            
+            
+            <button>cos⁻¹</button>
+            <button>sin⁻¹</button>
+            <button>tan⁻¹</button>
             <button>cos</button>
+            <button>sin</button>
             <button>tan</button>
-            <!-- Row 2 -->
-            <button>logx</button>
+
+            <button>logₓ</button>
             <button>abs</button>
             <button>(</button>
             <button>)</button>
             <button>AC</button>
             <button>del</button>
-            <!-- Row 3 -->
             <button>log</button>
             <button>EE</button>
             <button>1</button>
             <button>2</button>
             <button>3</button>
             <button>+</button>
-            <!-- Row 4 -->
             <button>ln</button>
             <button>π</button>
             <button>4</button>
             <button>5</button>
             <button>6</button>
-            <button>−</button>
-            <!-- Row 5 -->
+            <button>-</button>
+
             <button>%</button>
             <button>!</button>
             <button>7</button>
             <button>8</button>
             <button>9</button>
             <button>×</button>
-            <!-- Row 6 -->
+
             <button>√</button>
             <button>^</button>
             <button>.</button>
