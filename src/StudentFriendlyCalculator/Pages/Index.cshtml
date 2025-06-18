@@ -1,15 +1,17 @@
 ﻿@page
 @model IndexModel
 @{
-    
+
     ViewData["Title"] = "Calculator";
 }
 <link rel="stylesheet" href="~/css/standardCalc.css" />
+<link rel="stylesheet" href="~/css/site.css" />
 
 <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
     <div id="calc-select"> <!-- Divider for containing calculator options-->
         <button class="calc-button" id="standard" href="#">Standard</button>
-        <button class="calc-button" id="scientific" href="#">Scientific</button>
+        <button class="calc-button" id="scientific"><a asp-area=""
+                asp-page="/ScientificCalc">Scientific Calculator</a></button>
         <button class="calc-button" id="programming" href="#">Programming</button>
         <button class="calc-button" id="unit" href="#">Unit Conversion</button>
         <button class="calc-button" id="input-bar" href="#">Input</button>
