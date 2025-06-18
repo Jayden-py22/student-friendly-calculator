@@ -4,20 +4,58 @@
 // Write your JavaScript code.
 function parse_expression(expression){
     const lower_expr = expression.toLowerCase();
-    tokens = lower_expr.split(/(\(|\)|sin|cos|tan|pi|\+|\×|-|÷)/)
-    console.log("Pre-parse:", {expression})
+    tokens = lower_expr.split(/(\(|\)|arcsin|arccos|arctan|log|ln|sin|cos|tan|pi|\+|\×|-|÷)/)
+    tokens = tokens.filter(t => t !== '');
+    // console.log("Pre-parse:", {expression})
     const map = {
         "sin": "Sin",
         "cos": "Cos",
         "tan": "Tan",
+        "arcsin": "Asin",
+        "arccos": "Acos",
+        "arctan": "Atan",
+        "ln": "Ln",
+        "log": "Log",
+        "arctan": "Atan",
         "pi": "PI",
+        "π": "PI",
         "÷": "/",
         "×": "*"
     };
-    const mapped = tokens.map(t => {
+    let mapped = tokens.map(t => {
         return map[t] !== undefined ? map[t] : t;
     });
     console.log("Parsed:", mapped)
+
+    for (let i = 0; i < mapped.length; i++) {
+        const token = mapped[i];
+        // parse Log
+        if (token == "Log" || token == "Ln") {
+            if(token == "Ln"){
+                mapped[i] = "Log"
+            }
+            const base = token == "Log" ? "10" : "e";
+            const openIdx = i + 1;
+            console.log(openIdx, ", ", mapped[openIdx])
+            if (mapped[openIdx] == "(") {
+                let depth = 1;
+                // scan corresponding ")"
+                for (let j = openIdx + 1; j < mapped.length; j++) {
+                    if (mapped[j] == "(") {
+                        depth++;
+                    } else if (mapped[j] == ")") {
+                        depth--;
+                        if (depth == 0) {
+                            console.log("parse")
+                            mapped[j] = ", " + base + ")"
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    console.log("functionized:", mapped)
     return mapped.join("")
 }
 
@@ -32,7 +70,7 @@ function appendToDisplay(value) {
 function deleteFromDisplay() {
     const inputBox = document.getElementById("calc-display");
     if (inputBox) {
-        inputBox.value = inputBox.innerHTML.slice(0, -1);
+        inputBox.value = inputBox.value.slice(0, -1);
     }
 }
 
@@ -45,7 +83,7 @@ function initDisplay() {
 
 // preprocess the button click event
 function calcButtonHandler(value) {
-    console.log("Button clicked:", value);
+    // console.log("Button clicked:", value);
     if(value == "del"){
         deleteFromDisplay();
     }
@@ -162,7 +200,7 @@ document.addEventListener("keydown", function(e) {
     const key = e.key; 
     const allowedKeys = [
         ..."0123456789",
-        ..."+-*/().^!%",
+        ..."+-*/().^!%π",
         ..."abcdefghijklmnopqrstuvwxyz",
         ..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     ];
@@ -218,7 +256,7 @@ function calcSubmission() {
         .then(res => res.json())
         .then(data => {
             if (data.result !== undefined) {
-                document.getElementById("calc-display").innerText = `${data.result}`;
+                document.getElementById("calc-display").value = `${data.result}`;
                 AddToHistory(`${data.result}`, expr);
             } else {
                 console.log(data.error);

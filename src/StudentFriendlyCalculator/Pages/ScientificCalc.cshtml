@@ -9,12 +9,11 @@
 
 <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
     <div id="calc-select"> <!-- Divider for containing calculator options-->
-        <button class="calc-button" id="standard"><a asp-area=""
-                asp-page="/StandardCalc" style="text-decoration: none;color: #000000;">Standard Calculator</a></button>
-        <button class="calc-button" id="scientific" href="#">Scientific Calculator</button>
-        <button class="calc-button" id="programming" href="#">Programming</button>
-        <button class="calc-button" id="unit" href="#">Unit Conversion</button>
-        <button class="calc-button" id="input-bar" href="#">Input</button>
+        <a href="/"><button class="calc-button" id="standard" href="#">Standard</button></a>
+        <a href="/ScientificCalc"><button class="calc-button" id="scientific" href="/ScientificCalc">Scientific</button></a>
+        <a href="#"><button class="calc-button" id="programming" href="#">Programming</button></a>
+        <a href="#"><button class="calc-button" id="unit" href="#">Unit Conversion</button></a>
+        <a href="#"><button class="calc-button" id="input-bar" href="#">Input</button></a>
         <!-- More calculator buttons here -->
     </div>
     <div class="calc-holder">
@@ -40,14 +39,12 @@
             <button>)</button>
             <button>AC</button>
             <button>del</button>
-
             <button>log</button>
             <button>EE</button>
             <button>1</button>
             <button>2</button>
             <button>3</button>
             <button>+</button>
-
             <button>ln</button>
             <button>π</button>
             <button>4</button>
@@ -60,7 +57,7 @@
             <button>7</button>
             <button>8</button>
             <button>9</button>
-            <button>x</button>
+            <button>×</button>
 
             <button>√</button>
             <button>^</button>
@@ -74,4 +71,3 @@
         <button id="clear-hist">Clear History</button>
     </div>
 </div>
-
