@@ -7,8 +7,8 @@
 
 <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
     <div class="calc-select"> <!-- Divider for containing calculator options-->
-        <a class="calc-button" href="StandardCalc.cshtml">Standard</a>
         <a class="calc-button" href="#">Scientific</a>
+        <a class="calc-button" href="ScientificCalc.cshtml">Scientific</a>
         <!-- More calculator buttons here -->
     </div>
     <div class="calc-holder">
@@ -20,10 +20,10 @@
         <div class="calc-interface">
             
             
-            <button>(</button>
+            @* <button>(</button>
             <button>)</button>
             <button>AC</button>
-            <button>del</button>
+            <button>del</button> *@
 
             <button>7</button>
             <button>8</button>
@@ -126,8 +126,6 @@
     });
 </script>
 
-<!-- DEMONSTRATION CONTENT -->
-<!-- JS for displaying name from input box. -->
 <script>
     // This handles math expression submission
     function calcSubmission() {
