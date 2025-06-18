@@ -1,0 +1,33 @@
+@page
+@model StudentFriendlyCalculator.Pages.EquationSolverModel
+
+@{
+    ViewData["Title"] = "Equation Solver";
+}
+
+@* 
+   @page directive makes this file a routable Razor Page.
+   @model binds this view to the EquationSolverModel class below.
+*@
+
+<h1>Equation Solver</h1>
+
+<form method="post" asp-page-handler="Solve">
+    @* 
+       asp-page-handler="Solve" tells the runtime to invoke OnPostSolve() 
+       Bind the input value to the Model.Equation property.
+    *@
+    <div>
+        <label asp-for="Equation">Enter equation (e.g. 2*x+3=7):</label>
+        <input asp-for="Equation" />
+    </div>
+    <button type="submit">Solve</button>
+</form>
+
+@* 
+   Only show the result block when Solution has been set by the handler.
+*@
+@if (Model.Solution != null)
+{
+    <h2>Solution: @Model.Solution</h2>
+}
