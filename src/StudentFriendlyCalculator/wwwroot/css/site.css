@@ -64,7 +64,6 @@ body {
   color: darkgray;
 }
 
-
 /* Calculator tab */
 
 .calc-holder { /* Middle area for calculator holder */
@@ -108,6 +107,7 @@ body {
 }
 
 .hist-result {
+  padding: 0;
   font-size: 2em;
   border-radius: 10px;
   border: none;
@@ -126,4 +126,15 @@ body {
   border-radius: 4px;
   background: none;
   padding: 4px 8px;
+}
+
+#clear-hist {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ff1a1a;
+  display: inline-block;
+  background-color: #dfdfdf;
+  width: 96%;
+  text-align: left;
+  border-radius: 10px;
 }
