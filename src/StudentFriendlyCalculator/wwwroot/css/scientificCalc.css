@@ -15,7 +15,6 @@
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 10px;
   padding: 10px;
-
 }
 
 button {
@@ -25,7 +24,6 @@ button {
   border-radius: 10px;
   padding: 20px;
   border: 1px solid #ff881a;
-  font-size: 1.4rem;
   cursor: pointer;
   max-width: 100%;
   /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  */
