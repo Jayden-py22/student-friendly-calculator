@@ -151,8 +151,13 @@ body {
   background-color: #ff881a;
   color: white;
   text-shadow: 2px 2px #c66b15;
-  border: white;
   font-weight: bold;
+}
+
+.calc-interface button.calc-button-btwn {
+  background-color: #ffad60;
+  color: black;
+  border: none;
 }
 
 .calc-interface button.calc-button-white {

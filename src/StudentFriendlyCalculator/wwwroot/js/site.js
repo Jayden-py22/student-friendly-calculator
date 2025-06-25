@@ -325,41 +325,41 @@ sciCalcButton.addEventListener("click", () => {
     standardStylesheet.disabled = true;
     scientificStylesheet.disabled = false;
     calcContainer.innerHTML = `
-            <button>cos⁻¹</button>
-            <button>sin⁻¹</button>
-            <button>tan⁻¹</button>
-            <button>cos</button>
-            <button>sin</button>
-            <button>tan</button>
-            <button>logₓ</button>
-            <button>abs</button>
-            <button>(</button>
-            <button>)</button>
-            <button>AC</button>
-            <button>del</button>
-            <button>log</button>
-            <button>EE</button>
+            <button class="calc-button-btwn">cos⁻¹</button>
+            <button class="calc-button-btwn">sin⁻¹</button>
+            <button class="calc-button-btwn">tan⁻¹</button>
+            <button class="calc-button-btwn">cos</button>
+            <button class="calc-button-btwn">sin</button>
+            <button class="calc-button-btwn">tan</button>
+            <button class="calc-button-btwn">logₓ</button>
+            <button class="calc-button-btwn">abs</button>
+            <button class="calc-button-white">(</button>
+            <button class="calc-button-white">)</button>
+            <button class="calc-button-white">AC</button>
+            <button class="calc-button-white">del</button>
+            <button class="calc-button-btwn">log</button>
+            <button class="calc-button-btwn">EE</button>
             <button>1</button>
             <button>2</button>
             <button>3</button>
-            <button>÷</button>
-            <button>ln</button>
-            <button>π</button>
+            <button class="calc-button-op">÷</button>
+            <button class="calc-button-btwn">ln</button>
+            <button class="calc-button-btwn">π</button>
             <button>4</button>
             <button>5</button>
             <button>6</button>
-            <button>×</button>
-            <button>%</button>
-            <button>!</button>
+            <button class="calc-button-op">×</button>
+            <button class="calc-button-btwn">%</button>
+            <button class="calc-button-btwn">!</button>
             <button>7</button>
             <button>8</button>
             <button>9</button>
-            <button>-</button>
-            <button>√</button>
-            <button>^</button>
-            <button>.</button>
+            <button class="calc-button-op">-</button>
+            <button class="calc-button-btwn">√</button>
+            <button class="calc-button-btwn">>^</button>
+            <button class="calc-button-white">.</button>
             <button>0</button>
-            <button>=</button>
-            <button>+</button>
+            <button class="calc-button-white">=</button>
+            <button class="calc-button-op">+</button>
     `;
 })
