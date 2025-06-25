@@ -196,7 +196,7 @@ function LoadHistory() {
 }
 
 // Clear all history button
-document.querySelector(".clear-hist").addEventListener("click", () => {
+document.querySelector("#clear-hist").addEventListener("click", () => {
     localStorage.removeItem("calc-history-list");
     histlist = [];
     RenderFullHistory();
