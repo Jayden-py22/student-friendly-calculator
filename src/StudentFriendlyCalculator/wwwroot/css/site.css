@@ -144,3 +144,17 @@ body {
 #hide {
   display: none;
 }
+
+/* Calculator button universal styles */
+
+.calc-interface button.calc-button-op {
+  background-color: orange;
+  color: white;
+  font-weight: bold;
+}
+
+.calc-interface button.calc-button-core {
+  background-color: white;
+  color: black;
+  font-weight: bold;
+}
