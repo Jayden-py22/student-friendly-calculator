@@ -4,16 +4,17 @@
 
     ViewData["Title"] = "Calculator";
 }
-<link rel="stylesheet" href="~/css/StandardCalc.css" />
-<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/StandardCalc.css" id="standard-style"/>
+<link rel="stylesheet" href="~/css/site.css" id="core-style"/>
+<link rel="stylesheet" href="~/css/scientificCalc.css" id="scientific-style" disabled/>
 
 <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
     <div id="calc-select"> <!-- Divider for containing calculator options-->
-        <a href="/"><button class="calc-button" id="standard" href="#">Standard</button></a>
-        <a href="/ScientificCalc"><button class="calc-button" id="scientific" href="/ScientificCalc">Scientific</button></a>
-        <a href="#"><button class="calc-button" id="programming" href="#">Programming</button></a>
+        <a href="#"><button class="calc-button" id="standard" href="#">Standard Calculator</button></a>
+        <a href="#"><button class="calc-button" id="scientific" href="/ScientificCalc">Scientific Calculator</button></a>
+        @* <a href="#"><button class="calc-button" id="programming" href="#">Programming</button></a>
         <a href="#"><button class="calc-button" id="unit" href="#">Unit Conversion</button></a>
-        <a href="#"><button class="calc-button" id="input-bar" href="#">Input</button></a>
+        <a href="#"><button class="calc-button" id="input-bar" href="#">Input</button></a> *@
         <!-- More calculator buttons here -->
     </div>
     <div class="calc-holder">
@@ -33,22 +34,22 @@
             <button>7</button>
             <button>8</button>
             <button>9</button>
-            <button>×</button>
+            <button>÷</button>
             <!-- Third Row buttons  -->
             <button>4</button>
             <button>5</button>
             <button>6</button>
-            <button>-</button>
+            <button>×</button>
             <!-- Fourth Row buttons  -->
             <button>1</button>
             <button>2</button>
             <button>3</button>
-            <button>+</button>
+            <button>-</button>
             <!-- Fifth Row buttons  -->
             <button>.</button>
             <button>0</button>
             <button>=</button>
-            <button>÷</button>
+            <button>+</button>
         </div>
     </div>
     <div id="hist-select"> <!-- Divider for containing history of all operations-->

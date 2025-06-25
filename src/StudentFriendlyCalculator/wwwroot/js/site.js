@@ -4,7 +4,7 @@
 // Write your JavaScript code.
 function parse_expression(expression){
     const lower_expr = expression.toLowerCase();
-    let tokens = lower_expr.split(/(\(|\)|arcsin|arccos|arctan|log|ln|sin|cos|tan|pi|\+|\×|-|÷)/)
+    let tokens = lower_expr.split(/(\(|\)|arcsin|arccos|arctan|log|ln|sin|cos|tan|pi|\+|×|-|÷)/)
     tokens = tokens.filter(t => t !== '');
     // console.log("Pre-parse:", {expression})
     const map = {
@@ -271,6 +271,7 @@ function calcSubmission() {
             }
         });
 }
+
 // handling user pressing enter to start operation
 const inputBox = document.getElementById("calc-display")
 inputBox.addEventListener("keyup", function(event) {
@@ -278,3 +279,87 @@ inputBox.addEventListener("keyup", function(event) {
         calcSubmission()
     }
 });
+
+// Define elements for calculator switching
+const calcContainer = document.querySelector(".calc-interface");
+const standardStylesheet = document.getElementById("standard-style");
+const scientificStylesheet = document.getElementById("scientific-style");
+
+// Switch to standard calculator
+const standardCalcButton = document.querySelector("#standard");
+standardCalcButton.addEventListener("click", () => {
+    standardStylesheet.disabled = false;
+    scientificStylesheet.disabled = true;
+    calcContainer.innerHTML = `
+            <!-- First Row buttons  -->
+            <button>(</button>
+            <button>)</button>
+            <button>AC</button>
+            <button>del</button>
+            <!-- Second Row buttons  -->
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>÷</button>
+            <!-- Third Row buttons  -->
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>×</button>
+            <!-- Fourth Row buttons  -->
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>-</button>
+            <!-- Fifth Row buttons  -->
+            <button>.</button>
+            <button>0</button>
+            <button>=</button>
+            <button>+</button>
+    `;
+})
+
+// Switch to scientific calculator
+const sciCalcButton = document.querySelector("#scientific");
+sciCalcButton.addEventListener("click", () => {
+    standardStylesheet.disabled = true;
+    scientificStylesheet.disabled = false;
+    calcContainer.innerHTML = `
+            <button>cos⁻¹</button>
+            <button>sin⁻¹</button>
+            <button>tan⁻¹</button>
+            <button>cos</button>
+            <button>sin</button>
+            <button>tan</button>
+            <button>logₓ</button>
+            <button>abs</button>
+            <button>(</button>
+            <button>)</button>
+            <button>AC</button>
+            <button>del</button>
+            <button>log</button>
+            <button>EE</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>÷</button>
+            <button>ln</button>
+            <button>π</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>×</button>
+            <button>%</button>
+            <button>!</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>-</button>
+            <button>√</button>
+            <button>^</button>
+            <button>.</button>
+            <button>0</button>
+            <button>=</button>
+            <button>+</button>
+    `;
+})
