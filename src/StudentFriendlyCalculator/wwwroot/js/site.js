@@ -118,10 +118,11 @@ function AddToHistory(result, expression) {
 function RenderHistory(result, expression) {
     const index = histlist.length;
     const container = document.getElementById("hist-select");
+    // const displayResult = result.length > 6 ? result.slice(0, 6) + "…" : result;
     container.insertAdjacentHTML("afterbegin", `
         <div class="hist-option" data-index="${index}">
             <div class="hist-left">
-                <button class="hist-result">${result}</button>
+                <button class="hist-result" title="${result}">${result}</button>
                 <p class="hist-operation">=${expression}</p>
             </div>
             <button class="hist-delete">X</button>
@@ -136,10 +137,11 @@ function RenderFullHistory() {
     const HistoryContainer = document.querySelector('#hist-select');
     HistoryContainer.innerHTML = `<button class="clear-hist">Clear All History</button>`;
     histlist.forEach(([result, expression], index) => {
+        // const displayResult = result.length > 6 ? result.slice(0, 6) + "…" : result;
         HistoryContainer.insertAdjacentHTML("afterbegin", `
             <div class="hist-option" data-index="${index}">
                 <div class="hist-left">
-                    <button class="hist-result">${result}</button>
+                    <button class="hist-result" title="${result}">${result}</button>
                     <p class="hist-operation">=${expression}</p>
                 </div>
                 <button class="hist-delete">X</button>
@@ -166,7 +168,7 @@ document.querySelector("#hist-select").addEventListener("click", (event) => {
     const clickedElement = event.target;
 
     if (clickedElement.classList.contains("hist-result")) {
-        const result = clickedElement.textContent;
+        const result = clickedElement.title;
         calcButtonHandler(result);
     } else if (clickedElement.classList.contains("hist-delete")) {
         const histCard = clickedElement.closest(".hist-option");
