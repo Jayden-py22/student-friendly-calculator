@@ -44,7 +44,7 @@ body {
   background-color: #f8f8f8;
 }
 
-#calc-select > button {
+#calc-select button {
   padding: 10px;
   margin: 5px;
   border: 1px solid #ff881a;
@@ -63,7 +63,6 @@ body {
 #calc-select a:hover {
   color: darkgray;
 }
-
 
 /* Calculator tab */
 
@@ -108,6 +107,7 @@ body {
 }
 
 .hist-result {
+  padding: 0;
   font-size: 2em;
   border-radius: 10px;
   border: none;
@@ -126,4 +126,42 @@ body {
   border-radius: 4px;
   background: none;
   padding: 4px 8px;
+}
+
+.clear-hist {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ff1a1a;
+  display: inline-block;
+  background-color: #dfdfdf;
+  width: 96%;
+  text-align: left;
+  border-radius: 10px;
+}
+
+/* Utility styles */
+
+#hide {
+  display: none;
+}
+
+/* Calculator button universal styles */
+
+.calc-interface button.calc-button-op {
+  background-color: #ff881a;
+  color: white;
+  text-shadow: 2px 2px #c66b15;
+  font-weight: bold;
+}
+
+.calc-interface button.calc-button-btwn {
+  background-color: #ffad60;
+  color: black;
+  border: none;
+}
+
+.calc-interface button.calc-button-white {
+  background-color: rgb(212, 212, 212);
+  border: 1px solid #c66b15;
+  color: black;
 }

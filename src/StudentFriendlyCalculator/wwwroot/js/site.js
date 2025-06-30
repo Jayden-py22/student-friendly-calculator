@@ -4,20 +4,57 @@
 // Write your JavaScript code.
 function parse_expression(expression){
     const lower_expr = expression.toLowerCase();
-    tokens = lower_expr.split(/(\(|\)|sin|cos|tan|pi|\+|\×|-|÷)/)
-    console.log("Pre-parse:", {expression})
+    let tokens = lower_expr.split(/(\(|\)|arcsin|arccos|arctan|log|ln|sin|cos|tan|pi|\+|×|-|÷)/)
+    tokens = tokens.filter(t => t !== '');
+    // console.log("Pre-parse:", {expression})
     const map = {
         "sin": "Sin",
         "cos": "Cos",
         "tan": "Tan",
+        "arcsin": "Asin",
+        "arccos": "Acos",
+        "arctan": "Atan",
+        "ln": "Ln",
+        "log": "Log",
         "pi": "PI",
+        "π": "PI",
         "÷": "/",
         "×": "*"
     };
-    const mapped = tokens.map(t => {
+    let mapped = tokens.map(t => {
         return map[t] !== undefined ? map[t] : t;
     });
     console.log("Parsed:", mapped)
+
+    for (let i = 0; i < mapped.length; i++) {
+        const token = mapped[i];
+        // parse Log
+        if (token == "Log" || token == "Ln") {
+            if(token == "Ln"){
+                mapped[i] = "Log"
+            }
+            const base = token == "Log" ? "10" : "e";
+            const openIdx = i + 1;
+            console.log(openIdx, ", ", mapped[openIdx])
+            if (mapped[openIdx] == "(") {
+                let depth = 1;
+                // scan corresponding ")"
+                for (let j = openIdx + 1; j < mapped.length; j++) {
+                    if (mapped[j] == "(") {
+                        depth++;
+                    } else if (mapped[j] == ")") {
+                        depth--;
+                        if (depth == 0) {
+                            console.log("parse")
+                            mapped[j] = ", " + base + ")"
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    console.log("functionized:", mapped)
     return mapped.join("")
 }
 
@@ -32,7 +69,7 @@ function appendToDisplay(value) {
 function deleteFromDisplay() {
     const inputBox = document.getElementById("calc-display");
     if (inputBox) {
-        inputBox.value = inputBox.innerHTML.slice(0, -1);
+        inputBox.value = inputBox.value.slice(0, -1);
     }
 }
 
@@ -45,7 +82,7 @@ function initDisplay() {
 
 // preprocess the button click event
 function calcButtonHandler(value) {
-    console.log("Button clicked:", value);
+    // console.log("Button clicked:", value);
     if(value == "del"){
         deleteFromDisplay();
     }
@@ -90,12 +127,14 @@ function RenderHistory(result, expression) {
             <button class="hist-delete">X</button>
         </div>
     `);
+    const clearAll = document.querySelector(".clear-hist");
+    clearAll.removeAttribute("id");
 }
 
 // Rerenders all history cards when needed
 function RenderFullHistory() {
     const HistoryContainer = document.querySelector('#hist-select');
-    HistoryContainer.innerHTML = `<button id="clear-hist">Clear History</button>`;
+    HistoryContainer.innerHTML = `<button class="clear-hist">Clear All History</button>`;
     histlist.forEach(([result, expression], index) => {
         HistoryContainer.insertAdjacentHTML("afterbegin", `
             <div class="hist-option" data-index="${index}">
@@ -108,7 +147,14 @@ function RenderFullHistory() {
         `);
     });
 
-    document.querySelector("#clear-hist").addEventListener("click", () => {
+    const clearAll = document.querySelector(".clear-hist");
+    if (histlist.length != 0) {
+        clearAll.removeAttribute("id");
+    } else {
+        clearAll.id = "hide";
+    }
+
+    document.querySelector(".clear-hist").addEventListener("click", () => {
         localStorage.removeItem("calc-history-list");
         histlist = [];
         RenderFullHistory();
@@ -145,12 +191,12 @@ function LoadHistory() {
     const saved = localStorage.getItem("calc-history-list");
     if (saved) {
         histlist = JSON.parse(saved);
-        RenderFullHistory();
     }
+    RenderFullHistory();
 }
 
 // Clear all history button
-document.querySelector("#clear-hist").addEventListener("click", () => {
+document.querySelector(".clear-hist").addEventListener("click", () => {
     localStorage.removeItem("calc-history-list");
     histlist = [];
     RenderFullHistory();
@@ -162,7 +208,7 @@ document.addEventListener("keydown", function(e) {
     const key = e.key; 
     const allowedKeys = [
         ..."0123456789",
-        ..."+-*/().^!%",
+        ..."+-*/().^!%π",
         ..."abcdefghijklmnopqrstuvwxyz",
         ..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     ];
@@ -218,13 +264,14 @@ function calcSubmission() {
         .then(res => res.json())
         .then(data => {
             if (data.result !== undefined) {
-                document.getElementById("calc-display").innerText = `${data.result}`;
+                document.getElementById("calc-display").value = `${data.result}`;
                 AddToHistory(`${data.result}`, expr);
             } else {
                 console.log(data.error);
             }
         });
 }
+
 // handling user pressing enter to start operation
 const inputBox = document.getElementById("calc-display")
 inputBox.addEventListener("keyup", function(event) {
@@ -232,3 +279,87 @@ inputBox.addEventListener("keyup", function(event) {
         calcSubmission()
     }
 });
+
+// Define elements for calculator switching
+const calcContainer = document.querySelector(".calc-interface");
+const standardStylesheet = document.getElementById("standard-style");
+const scientificStylesheet = document.getElementById("scientific-style");
+
+// Switch to standard calculator
+const standardCalcButton = document.querySelector("#standard");
+standardCalcButton.addEventListener("click", () => {
+    standardStylesheet.disabled = false;
+    scientificStylesheet.disabled = true;
+    calcContainer.innerHTML = `
+            <!-- First Row buttons  -->
+            <button class="calc-button-white">(</button>
+            <button class="calc-button-white">)</button>
+            <button class="calc-button-white">AC</button>
+            <button class="calc-button-white">del</button>
+            <!-- Second Row buttons  -->
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button class="calc-button-op">÷</button>
+            <!-- Third Row buttons  -->
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button class="calc-button-op">×</button>
+            <!-- Fourth Row buttons  -->
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="calc-button-op">-</button>
+            <!-- Fifth Row buttons  -->
+            <button class="calc-button-white">.</button>
+            <button>0</button>
+            <button class="calc-button-white">=</button>
+            <button class="calc-button-op">+</button>
+    `;
+})
+
+// Switch to scientific calculator
+const sciCalcButton = document.querySelector("#scientific");
+sciCalcButton.addEventListener("click", () => {
+    standardStylesheet.disabled = true;
+    scientificStylesheet.disabled = false;
+    calcContainer.innerHTML = `
+            <button class="calc-button-btwn">cos⁻¹</button>
+            <button class="calc-button-btwn">sin⁻¹</button>
+            <button class="calc-button-btwn">tan⁻¹</button>
+            <button class="calc-button-btwn">cos</button>
+            <button class="calc-button-btwn">sin</button>
+            <button class="calc-button-btwn">tan</button>
+            <button class="calc-button-btwn">logₓ</button>
+            <button class="calc-button-btwn">abs</button>
+            <button class="calc-button-white">(</button>
+            <button class="calc-button-white">)</button>
+            <button class="calc-button-white">AC</button>
+            <button class="calc-button-white">del</button>
+            <button class="calc-button-btwn">log</button>
+            <button class="calc-button-btwn">EE</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="calc-button-op">÷</button>
+            <button class="calc-button-btwn">ln</button>
+            <button class="calc-button-btwn">π</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button class="calc-button-op">×</button>
+            <button class="calc-button-btwn">%</button>
+            <button class="calc-button-btwn">!</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button class="calc-button-op">-</button>
+            <button class="calc-button-btwn">√</button>
+            <button class="calc-button-btwn">>^</button>
+            <button class="calc-button-white">.</button>
+            <button>0</button>
+            <button class="calc-button-white">=</button>
+            <button class="calc-button-op">+</button>
+    `;
+})
