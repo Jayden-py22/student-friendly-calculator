@@ -1,33 +1,62 @@
 @page
 @model StudentFriendlyCalculator.Pages.EquationSolverModel
-
 @{
     ViewData["Title"] = "Equation Solver";
+    Layout = "_Layout";
 }
+<link rel="stylesheet" href="~/css/scientificCalc.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
-@* 
-   @page directive makes this file a routable Razor Page.
-   @model binds this view to the EquationSolverModel class below.
-*@
-
-<h1>Equation Solver</h1>
-
-<form method="post" asp-page-handler="Solve">
-    @* 
-       asp-page-handler="Solve" tells the runtime to invoke OnPostSolve() 
-       Bind the input value to the Model.Equation property.
-    *@
-    <div>
-        <label asp-for="Equation">Enter equation (e.g. 2*x+3=7):</label>
-        <input asp-for="Equation" />
+<div id="functional-container">
+    <div id="calc-select">
+        <a href="/"><button class="calc-button" id="standard">Standard</button></a>
+        <a href="/ScientificCalc"><button class="calc-button" id="scientific">Scientific</button></a>
+        <a href="/EquationSolver"><button class="calc-button" id="equation">Equation</button></a>
     </div>
-    <button type="submit">Solve</button>
-</form>
-
-@* 
-   Only show the result block when Solution has been set by the handler.
-*@
-@if (Model.Solution != null)
-{
-    <h2>Solution: @Model.Solution</h2>
-}
+    <div class="calc-holder">
+        <form method="post" asp-page-handler="Solve">
+            <div id="calc-display-back">
+                <input id="calc-display" asp-for="Equation" />
+            </div>
+            <div class="calc-interface">
+                <!-- Function buttons -->
+                <button type="button" class="calc-button-btwn">cos⁻¹</button>
+                <button type="button" class="calc-button-btwn">sin⁻¹</button>
+                <button type="button" class="calc-button-btwn">tan⁻¹</button>
+                <button type="button" class="calc-button-btwn">√</button>
+                <button type="button" class="calc-button-white">AC</button>
+                <button type="button" class="calc-button-white">del</button>
+                <button type="button" class="calc-button-btwn">Δ</button>
+                <button type="button" class="calc-button-btwn">x²</button>
+                <!-- Numeric and operators -->
+                <button type="button" class="calc-button">7</button>
+                <button type="button" class="calc-button">8</button>
+                <button type="button" class="calc-button">9</button>
+                <button type="button" class="calc-button-op">÷</button>
+                <button type="button" class="calc-button">4</button>
+                <button type="button" class="calc-button">5</button>
+                <button type="button" class="calc-button">6</button>
+                <button type="button" class="calc-button">2</button>
+                <button type="button" class="calc-button">1</button>
+                <button type="button" class="calc-button-op">×</button>
+                <button type="button" class="calc-button">3</button>
+                <button type="button" class="calc-button-op">−</button>
+                <button type="button" class="calc-button">0</button>
+                <button type="button" class="calc-button-white">.</button>
+                <button type="button" class="calc-button">x</button>
+                <button type="button" class="calc-button-op">+</button>
+                <!-- Submit button -->
+                <button type="submit" class="calc-button-white">=</button>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.Solution))
+            {
+                <div class="solution-display">
+                    <strong>Solution:</strong> @Model.Solution
+                </div>
+            }
+        </form>
+    </div>
+    <div id="hist-select">
+        <button id="clear-hist" class="clear-hist">Clear History</button>
+    </div>
+</div>
