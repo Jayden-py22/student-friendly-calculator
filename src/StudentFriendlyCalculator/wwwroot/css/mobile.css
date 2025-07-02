@@ -1,0 +1,307 @@
+/* Default for moblie view. */
+html {
+  font-size: 10px;
+}
+
+
+#functional-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: 100%;
+  height: 500px;
+}
+
+
+#calc-select {
+  /* Left bar for selection */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+}
+
+
+#calc-select button {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ff881a;
+  display: inline-block;
+  background-color: #dfdfdf;
+  width: 96%;
+  text-align: center;
+  border-radius: 10px;
+}
+
+
+.hist-option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 0 10px;
+  text-align: center;
+  border: 1px solid #ff881a;
+  background-color: #dfdfdf;
+}
+
+
+.calc-holder {
+  /* Middle area for calculator holder */
+  background-color: #ffdab7;
+  border-radius: 10px;
+}
+
+
+/* History tab */
+#hist-select {
+  /* Container for all history elements */
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-bottom: 50px;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+}
+
+
+.hist-option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 0 10px;
+  text-align: center;
+  border: 1px solid #ff881a;
+  background-color: #dfdfdf;
+}
+
+
+.hist-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+
+.hist-result {
+  padding: 0;
+  font-size: 2em;
+  border-radius: 10px;
+  border: none;
+  color: rgb(0, 0, 0);
+  background-color: #dfdfdf;
+}
+
+
+.hist-operation {
+  font-size: 1em;
+  color: rgb(89, 89, 89);
+}
+
+
+.hist-delete {
+  border: 1px solid red;
+  color: red;
+  border-radius: 4px;
+  background: none;
+  padding: 4px 8px;
+}
+
+
+.clear-hist {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ff1a1a;
+  display: inline-block;
+  background-color: #dfdfdf;
+  width: 96%;
+  text-align: left;
+  border-radius: 10px;
+}
+
+
+
+
+/* Regular screen size view. */
+@media (min-width: 768px) {
+
+
+  .btn:focus,
+  .btn:active:focus,
+  .btn-link.nav-link:focus,
+  .form-control:focus,
+  .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  }
+
+
+  html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+  }
+
+
+  body {
+    margin-bottom: 60px;
+  }
+
+
+  #testdiv {
+    background-color: #0077cc;
+    width: 400px;
+    margin: 0 auto;
+  }
+
+
+  /* All functional elements of main page styling */
+  #functional-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 1rem;
+    width: 100%;
+    height: 500px;
+  }
+
+
+  /* Calculator selection tab */
+  #calc-select {
+    /* Left bar for selection */
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+  }
+
+
+  #calc-select button {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ff881a;
+    display: inline-block;
+    background-color: #dfdfdf;
+    width: 96%;
+    border-radius: 10px;
+  }
+
+
+  #calc-select a {
+    color: black;
+    text-decoration: none;
+  }
+
+
+  #calc-select a:hover {
+    color: darkgray;
+  }
+
+
+  /* Calculator tab */
+
+
+  .calc-holder {
+    /* Middle area for calculator holder */
+    background-color: #ffdab7;
+    border-radius: 10px;
+  }
+
+
+  /* History tab */
+
+
+  #hist-select {
+    /* Container for all history elements */
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+  }
+
+
+  .hist-option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 0 10px;
+    text-align: center;
+    border: 1px solid #ff881a;
+    background-color: #dfdfdf;
+  }
+
+
+  .hist-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+  }
+
+
+  .hist-result {
+    padding: 0;
+    font-size: 2em;
+    border-radius: 10px;
+    border: none;
+    color: rgb(0, 0, 0);
+    background-color: #dfdfdf;
+  }
+
+
+  .hist-operation {
+    font-size: 1em;
+    color: rgb(89, 89, 89);
+  }
+
+
+  .hist-delete {
+    border: 1px solid red;
+    color: red;
+    border-radius: 4px;
+    background: none;
+    padding: 4px 8px;
+  }
+
+
+  .clear-hist {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ff1a1a;
+    display: inline-block;
+    background-color: #dfdfdf;
+    width: 96%;
+    text-align: left;
+    border-radius: 10px;
+  }
+
+
+  /* Utility styles */
+
+
+  #hide {
+    display: none;
+  }
+}
+
