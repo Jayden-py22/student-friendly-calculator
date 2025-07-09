@@ -130,6 +130,15 @@ function appendToDisplay(value) {
     if (inputBox) {
         inputBox.value += value;
     }
+    checkForError()
+}
+
+// Checks to see if error text is in value, and if so, remove it
+function checkForError() {
+    const inputBox = document.getElementById("calc-display");
+    if (inputBox.value.includes(`ERROR`)) {
+        inputBox.value = inputBox.value.replace(`ERROR`, ``);
+    }
 }
 
 function deleteFromDisplay() {
@@ -137,6 +146,7 @@ function deleteFromDisplay() {
     if (inputBox) {
         inputBox.value = inputBox.value.slice(0, -1);
     }
+    checkForError()
 }
 
 function initDisplay() {
@@ -288,6 +298,7 @@ document.addEventListener("keydown", function(e) {
     if (key === "Enter") {
         calcButtonHandler("=");
         e.preventDefault();
+        checkForError()
         return;
     }
 
@@ -329,14 +340,25 @@ function calcSubmission() {
         },
         body: JSON.stringify({ name: parsedExpr })
     })
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`Server error: ${res.status}`);
+            }
+            return res.json();
+        })
         .then(data => {
+            console.log(data);
             if (data.result !== undefined) {
                 document.getElementById("calc-display").value = `${data.result}`;
                 AddToHistory(`${data.result}`, expr);
             } else {
-                console.log(data.error);
+                console.log(data.error || "Unknown error");
+                document.getElementById("calc-display").value = `ERROR`;
             }
+        })
+        .catch(error => {
+            console.error("Fetch failed:", error);
+            document.getElementById("calc-display").value = `ERROR`;
         });
 }
 
