@@ -429,9 +429,9 @@ sciCalcButton.addEventListener("click", () => {
             <button class="calc-button-white">del</button>
             <button class="calc-button-btwn">log</button>
             <button class="calc-button-btwn">EE</button>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
             <button class="calc-button-op">÷</button>
             <button class="calc-button-btwn">ln</button>
             <button class="calc-button-btwn">π</button>
@@ -441,9 +441,9 @@ sciCalcButton.addEventListener("click", () => {
             <button class="calc-button-op">×</button>
             <button class="calc-button-btwn">%</button>
             <button class="calc-button-btwn">!</button>
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
             <button class="calc-button-op">-</button>
             <button class="calc-button-btwn">√</button>
             <button class="calc-button-btwn">>^</button>
