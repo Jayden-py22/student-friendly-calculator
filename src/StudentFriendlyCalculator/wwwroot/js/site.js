@@ -4,7 +4,7 @@
 // Write your JavaScript code.
 function parse_expression(expression){
     const lower_expr = expression.toLowerCase();
-    let tokens = lower_expr.split(/(\(|\)|arcsin|sin⁻¹|arccos|cos⁻¹|arctan|tan⁻¹|log|ln|π|sin|\^|cos|tan|pi|%|\+|×|-|!|e|÷)/)
+    let tokens = lower_expr.split(/(\(|\)|arcsin|sin⁻¹|arccos|cos⁻¹|arctan|tan⁻¹|log|ln|π|sin|\^|cos|tan|pi|%|\+|×|-|!|e|𝑒|÷)/)
     tokens = tokens.filter(t => t !== '');
     // console.log("Pre-parse:", {expression})
     const map = {
@@ -23,6 +23,7 @@ function parse_expression(expression){
         "π": "PI",
         "÷": "/",
         "×": "*",
+        "𝑒": "e",
         "√": "sqrt"
     };
     let mapped = tokens.map(t => {
@@ -428,7 +429,7 @@ sciCalcButton.addEventListener("click", () => {
             <button class="calc-button-white">AC</button>
             <button class="calc-button-white">del</button>
             <button class="calc-button-btwn">log</button>
-            <button class="calc-button-btwn">EE</button>
+            <button class="calc-button-btwn">𝑒</button>
             <button>7</button>
             <button>8</button>
             <button>9</button>
@@ -446,7 +447,7 @@ sciCalcButton.addEventListener("click", () => {
             <button>3</button>
             <button class="calc-button-op">-</button>
             <button class="calc-button-btwn">√</button>
-            <button class="calc-button-btwn">>^</button>
+            <button class="calc-button-btwn">^</button>
             <button class="calc-button-white">.</button>
             <button>0</button>
             <button class="calc-button-white">=</button>
