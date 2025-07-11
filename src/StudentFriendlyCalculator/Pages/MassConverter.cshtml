@@ -16,6 +16,9 @@
         <!-- More calculator buttons here -->
     </div>
     <div class="calc-holder">
+        <select>
+            <option value="mass">Mass</option>
+        </select>
         <!-- Calculator contents go here,
         would likely need to be adjusted using JS
         depending on selected calculator -->
@@ -44,3 +47,37 @@
         <button id="clear-hist">Clear History</button>
     </div>
 </div>
+
+
+<script>
+    function converterSubmission() {
+    const expr1 = document.getElementById("calc-display").value;
+    const expr2 = document.getElementById("calc-display2").value;
+    console.log(`recieved value 1:" ${expr1}`);
+    console.log(`recieved value 2:" ${expr2}`);
+    const parsedExpr1 = parse_expression(expr1);
+    const parsedExpr2 = parse_expression(expr2);
+    console.log(`parsed value 1:" ${parsedExpr1}`);
+    console.log(`parsed value 2:" ${parsedExpr2}`);
+
+    fetch("/Index?handler=converterSubmission", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ 
+            value1: parsedExpr1,
+            value2: parsedExpr2
+            })
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.result !== undefined) {
+                document.getElementById("calc-display1").value = `${data.result}`;
+                AddToHistory(`${data.result}`, expr);
+            } else {
+                console.log(data.error);
+            }
+        });
+}
+</script>

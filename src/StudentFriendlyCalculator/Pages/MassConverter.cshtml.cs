@@ -1,5 +1,8 @@
+using System.Net.NetworkInformation;
+using Antlr.Runtime;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NCalc;
 
 namespace Calculator.Pages
 {
@@ -71,7 +74,7 @@ namespace Calculator.Pages
         }
 
 
-        public IActionResult OnPostCalcSubmission([FromBody] UserInput input)
+        public IActionResult OnPostConverterSubmission([FromBody] UserInput input)
         {
             Console.WriteLine("Received: " + input.Name); // The math expression
 
