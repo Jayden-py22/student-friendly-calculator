@@ -4,7 +4,7 @@
 // Write your JavaScript code.
 function parse_expression(expression){
     const lower_expr = expression.toLowerCase();
-    let tokens = lower_expr.split(/(\(|\)|arcsin|arccos|arctan|log|ln|sin|cos|tan|pi|\+|×|-|÷)/)
+    let tokens = lower_expr.split(/(\(|\)|arcsin|sin⁻¹|arccos|cos⁻¹|arctan|tan⁻¹|log|ln|π|sin|\^|cos|tan|pi|%|\+|×|-|!|e|𝑒|÷)/)
     tokens = tokens.filter(t => t !== '');
     // console.log("Pre-parse:", {expression})
     const map = {
@@ -12,14 +12,19 @@ function parse_expression(expression){
         "cos": "Cos",
         "tan": "Tan",
         "arcsin": "Asin",
+        "sin⁻¹": "asin",
         "arccos": "Acos",
+        "cos⁻¹": "Acos",
         "arctan": "Atan",
+        "tan⁻¹": "Atan",
         "ln": "Ln",
         "log": "Log",
         "pi": "PI",
         "π": "PI",
         "÷": "/",
-        "×": "*"
+        "×": "*",
+        "𝑒": "e",
+        "√": "sqrt"
     };
     let mapped = tokens.map(t => {
         return map[t] !== undefined ? map[t] : t;
@@ -28,34 +33,96 @@ function parse_expression(expression){
 
     for (let i = 0; i < mapped.length; i++) {
         const token = mapped[i];
-        // parse Log
         if (token == "Log" || token == "Ln") {
+            // parse Log
             if(token == "Ln"){
                 mapped[i] = "Log"
             }
             const base = token == "Log" ? "10" : "e";
             const openIdx = i + 1;
             console.log(openIdx, ", ", mapped[openIdx])
-            if (mapped[openIdx] == "(") {
-                let depth = 1;
-                // scan corresponding ")"
-                for (let j = openIdx + 1; j < mapped.length; j++) {
-                    if (mapped[j] == "(") {
-                        depth++;
-                    } else if (mapped[j] == ")") {
-                        depth--;
-                        if (depth == 0) {
-                            console.log("parse")
-                            mapped[j] = ", " + base + ")"
-                            break;
-                        }
-                    }
-                }
+            if (mapped[openIdx] == "(") {   
+                let closeIdx = findClosingParenIdx(mapped, openIdx, base);
+                console.log("Log: ", closeIdx);
+                mapped[closeIdx] = `,${base})`;
+            } else{
+                console.error("error: no opening parenthesis for parsing log")
+            }
+        } else if(token == "!"){
+            // factorial: (3+2)! -> factorial(3+2)
+            const closeIdx = i-1;
+            if(mapped[closeIdx] == ")"){
+                mapped[i] = ``; 
+                let openIdx = findOpeningParenIdx(mapped, closeIdx);
+                mapped[openIdx] = `factorial(`;
+            } else{
+                // case: no parenthesis 2! -> factorial(2) 
+                mapped[i] = `)`;
+                mapped[i-1] = `factorial(` + mapped[i-1]
+            }
+        } else if(token == "sqrt"){
+            // root: sqrt(2+3) -> sqrt(2+3)
+        } else if(token == "^"){
+            // exponential: (1+2)^3 -> Pow((1+2),3)
+            mapped[i] = ",";
+            let formerCloseIdx = i-1;
+            let latterOpenIdx = i+1;
+            if(mapped[formerCloseIdx] == ")"){
+                let formerOpenIdx = findOpeningParenIdx(mapped, formerCloseIdx);
+                mapped[formerOpenIdx] = "Pow((";
+            } else{
+                mapped[formerCloseIdx] = "Pow(" + mapped[formerCloseIdx];
+            }
+            if(mapped[latterOpenIdx] == "("){
+                let latterCloseIdx = findClosingParenIdx(mapped, latterOpenIdx)
+                mapped[latterCloseIdx] = mapped[latterCloseIdx] + ")"
+            } else{
+                mapped[latterOpenIdx] = mapped[latterOpenIdx] + ")";
             }
         }
     }
     console.log("functionized:", mapped)
     return mapped.join("")
+
+    function findClosingParenIdx(mapped, openIdx) {
+        // tokens: ["123", "+","Sin", "(", "pi","*","2",")"]
+        // startIdx: 3
+        // return: 7
+
+        let depth = 0;
+        let closeIdx = openIdx;
+        // scan corresponding ")"
+        for (closeIdx; closeIdx < mapped.length; closeIdx++) {
+            if (mapped[closeIdx] == "(") {
+                depth++;
+            } else if (mapped[closeIdx] == ")") {
+                depth--;
+                if (depth == 0) {
+                    return closeIdx;
+                }
+            }
+        }
+    }
+
+    function findOpeningParenIdx(mapped, closeIdx) {
+        // tokens: ["123", "+", "(","2",")", "!"]
+        // startIdx: 4
+        // return: 2
+
+        let depth = 0;
+        let openIdx = closeIdx;
+        // scan corresponding "("
+        for (openIdx; openIdx >= 0; openIdx--) {
+            if (mapped[openIdx] == ")") {
+                depth++;
+            } else if (mapped[openIdx] == "(") {
+                depth--;
+                if (depth == 0) {
+                    return openIdx;
+                }
+            }
+        }
+    }
 }
 
 //simply add or delete from the display&expression
@@ -64,6 +131,15 @@ function appendToDisplay(value) {
     if (inputBox) {
         inputBox.value += value;
     }
+    checkForError()
+}
+
+// Checks to see if error text is in value, and if so, remove it
+function checkForError() {
+    const inputBox = document.getElementById("calc-display");
+    if (inputBox.value.includes(`ERROR`)) {
+        inputBox.value = inputBox.value.replace(`ERROR`, ``);
+    }
 }
 
 function deleteFromDisplay() {
@@ -71,6 +147,7 @@ function deleteFromDisplay() {
     if (inputBox) {
         inputBox.value = inputBox.value.slice(0, -1);
     }
+    checkForError()
 }
 
 function initDisplay() {
@@ -118,10 +195,11 @@ function AddToHistory(result, expression) {
 function RenderHistory(result, expression) {
     const index = histlist.length;
     const container = document.getElementById("hist-select");
+    // const displayResult = result.length > 6 ? result.slice(0, 6) + "…" : result;
     container.insertAdjacentHTML("afterbegin", `
         <div class="hist-option" data-index="${index}">
             <div class="hist-left">
-                <button class="hist-result">${result}</button>
+                <button class="hist-result" title="${result}">${result}</button>
                 <p class="hist-operation">=${expression}</p>
             </div>
             <button class="hist-delete">X</button>
@@ -136,10 +214,11 @@ function RenderFullHistory() {
     const HistoryContainer = document.querySelector('#hist-select');
     HistoryContainer.innerHTML = `<button class="clear-hist">Clear All History</button>`;
     histlist.forEach(([result, expression], index) => {
+        // const displayResult = result.length > 6 ? result.slice(0, 6) + "…" : result;
         HistoryContainer.insertAdjacentHTML("afterbegin", `
             <div class="hist-option" data-index="${index}">
                 <div class="hist-left">
-                    <button class="hist-result">${result}</button>
+                    <button class="hist-result" title="${result}">${result}</button>
                     <p class="hist-operation">=${expression}</p>
                 </div>
                 <button class="hist-delete">X</button>
@@ -166,7 +245,7 @@ document.querySelector("#hist-select").addEventListener("click", (event) => {
     const clickedElement = event.target;
 
     if (clickedElement.classList.contains("hist-result")) {
-        const result = clickedElement.textContent;
+        const result = clickedElement.title;
         calcButtonHandler(result);
     } else if (clickedElement.classList.contains("hist-delete")) {
         const histCard = clickedElement.closest(".hist-option");
@@ -220,6 +299,7 @@ document.addEventListener("keydown", function(e) {
     if (key === "Enter") {
         calcButtonHandler("=");
         e.preventDefault();
+        checkForError()
         return;
     }
 
@@ -261,14 +341,25 @@ function calcSubmission() {
         },
         body: JSON.stringify({ name: parsedExpr })
     })
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`Server error: ${res.status}`);
+            }
+            return res.json();
+        })
         .then(data => {
+            console.log(data);
             if (data.result !== undefined) {
                 document.getElementById("calc-display").value = `${data.result}`;
                 AddToHistory(`${data.result}`, expr);
             } else {
-                console.log(data.error);
+                console.log(data.error || "Unknown error");
+                document.getElementById("calc-display").value = `ERROR`;
             }
+        })
+        .catch(error => {
+            console.error("Fetch failed:", error);
+            document.getElementById("calc-display").value = `ERROR`;
         });
 }
 
@@ -338,10 +429,10 @@ sciCalcButton.addEventListener("click", () => {
             <button class="calc-button-white">AC</button>
             <button class="calc-button-white">del</button>
             <button class="calc-button-btwn">log</button>
-            <button class="calc-button-btwn">EE</button>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
+            <button class="calc-button-btwn">𝑒</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
             <button class="calc-button-op">÷</button>
             <button class="calc-button-btwn">ln</button>
             <button class="calc-button-btwn">π</button>
@@ -351,15 +442,66 @@ sciCalcButton.addEventListener("click", () => {
             <button class="calc-button-op">×</button>
             <button class="calc-button-btwn">%</button>
             <button class="calc-button-btwn">!</button>
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
             <button class="calc-button-op">-</button>
             <button class="calc-button-btwn">√</button>
-            <button class="calc-button-btwn">>^</button>
+            <button class="calc-button-btwn">^</button>
             <button class="calc-button-white">.</button>
             <button>0</button>
             <button class="calc-button-white">=</button>
             <button class="calc-button-op">+</button>
     `;
 })
+
+// Switch to equation solver
+const eqCalcButton = document.querySelector("#equation");
+eqCalcButton.addEventListener("click", () => {
+    // Enable standard stylesheet, disable scientific stylesheet
+    standardStylesheet.disabled = false;
+    scientificStylesheet.disabled = true;
+
+    // Inject Equation Solver interface into the container
+    calcContainer.innerHTML = `
+        <button class="calc-button-btwn">logₓ</button>
+        <button class="calc-button-btwn">abs</button>
+        <button class="calc-button-white">(</button>
+        <button class="calc-button-white">)</button>
+        <button class="calc-button-white">AC</button>
+        <button class="calc-button-white">del</button>
+
+        <button class="calc-button">7</button>
+        <button class="calc-button">8</button>
+        <button class="calc-button">9</button>
+        <button class="calc-button-op">÷</button>
+
+        <button class="calc-button">4</button>
+        <button class="calc-button">5</button>
+        <button class="calc-button">6</button>
+        <button class="calc-button-op">×</button>
+
+        <button class="calc-button">1</button>
+        <button class="calc-button">2</button>
+        <button class="calc-button">3</button>
+        <button class="calc-button-op">-</button>
+
+        <button class="calc-button">0</button>
+        <button class="calc-button-white">.</button>
+        <button class="calc-button">x</button>
+        <button class="calc-button-op">+</button>
+
+        <button class="calc-button-white" id="solve-btn">=</button>
+    `;
+
+    // Bind the solve button to trigger calculation
+    document.querySelector("#solve-btn").addEventListener("click", () => {
+        calcSubmission();
+    });
+});
+
+// Equation Solver navigation
+const eqButtonNav = document.querySelector("#equation");
+eqButtonNav.addEventListener("click", () => {
+    window.location.href = "/EquationSolver";
+});

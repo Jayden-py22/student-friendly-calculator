@@ -1,5 +1,4 @@
-/* Regular screen size view. */
-/* @media (min-width: 768px) { */
+
 #calc-display {
   width: 96%;
   font-size: 2em;
@@ -11,14 +10,12 @@
   height: 52px;
 }
 
-
 .calc-interface {
   display: grid;
   margin: 0 auto;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
   padding: 10px;
-
 
   button {
     background-color: #e0e0e0;
@@ -33,10 +30,8 @@
     /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  */
     transition: background-color 0.2s ease;
   }
- 
+  
   button:hover {
     background-color: #d5d5d5;
   }
 }
-/* } */
-
