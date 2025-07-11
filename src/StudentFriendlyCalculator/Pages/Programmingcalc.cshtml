@@ -1,0 +1,67 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Calculator";
+}
+<link rel="stylesheet" href="~/css/ProgrammingCalc.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+
+<div id="functional-container">
+    <!-- Container for all functional elements pertaining to calculator -->
+    <div id="calc-select">
+        <!-- Divider for containing calculator options-->
+        <a href="/"><button class="calc-button" id="standard" href="#">Standard</button></a>
+        <a href="/ScientificCalc"><button class="calc-button" id="scientific" href="/ScientificCalc">Scientific</button></a>
+        <a href="/Programmingcalc"><button class="calc-button" id="programming" href="/Programmingcalc">Programming</button></a>
+        <a href="#"><button class="calc-button" id="unit" href="#">Unit Conversion</button></a>
+        <a href="#"><button class="calc-button" id="input-bar" href="#">Input</button></a>
+        <!-- More calculator buttons here -->
+    </div>
+    <div class="calc-holder">
+        <!-- Calculator contents go here,
+        would likely need to be adjusted using JS
+        depending on selected calculator -->
+        <div id="calc-display-back">
+            <!-- For use in bg styling only -->
+            <input id="calc-display">
+        </div>
+        <div class="calc-interface">
+
+            <button>A</button>
+            <button>(</button>
+            <button>)</button>
+            <button>AC</button>
+            <button>del</button>
+
+            <button>B</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>Dec</button>
+
+            <button>C</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>Hex</button>
+
+            <button>D</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>bin</button>
+
+            <button>E</button>
+            <button>F</button>
+            <button>AND</button>
+            <button>0</button>
+            <button>=</button>
+            <button>XOR</button>
+            <button>OR</button>
+        </div>
+    </div>
+    <div id="hist-select">
+        <!-- Divider for containing history of all operations-->
+        <button id="clear-hist">Clear History</button>
+    </div>
+</div>
