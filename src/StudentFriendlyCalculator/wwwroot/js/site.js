@@ -446,7 +446,7 @@ sciCalcButton.addEventListener("click", () => {
             <button>3</button>
             <button class="calc-button-op">-</button>
             <button class="calc-button-btwn">√</button>
-            <button class="calc-button-btwn">>^</button>
+            <button class="calc-button-btwn">^</button>
             <button class="calc-button-white">.</button>
             <button>0</button>
             <button class="calc-button-white">=</button>
