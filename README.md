@@ -17,11 +17,11 @@ Data Storage: Render for hosting, cookies on browser stored by website
 Development Tools: Visual Studio Code, Visual Studio, .NET 8 SDK, GitHub (project storage)
 ## Software Features
 * [ ] Fully styled website that opens in a web browser (whether on mobile or desktop)
-* [ ] Calculator functions (add, subtract, divide, multiply, etc.)
-* [ ] A calculator tab for switching between different calculators (basic, scientific, unit, programmer, etc.)
-* [ ] A history tab for reusing results of previous calculations
-* [ ] Stores history (previous operations, numbers, etc.) and other preference data to the user's computer using cookies
-* [ ] Handles calculation using C# with website functions handled using JS
+* [X] Calculator functions (add, subtract, divide, multiply, etc.)
+* [X] A calculator tab for switching between different calculators (basic, scientific, unit, programmer, etc.)
+* [X] A history tab for reusing results of previous calculations
+* [X] Stores history (previous operations, numbers, etc.) and other preference data to the user's computer using cookies
+* [X] Handles calculation using C# with website functions handled using JS
 ## Team Communication
 Team communication is conducted through a team Discord server in addition to a SMS group chat.
 ## Team Responsibility
