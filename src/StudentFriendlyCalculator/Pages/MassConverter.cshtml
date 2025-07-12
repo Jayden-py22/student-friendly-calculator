@@ -1,15 +1,15 @@
 ﻿@page
 @{
-     ViewData["Title"] = "Mass Converter";
+    ViewData["Title"] = "Mass Converter";
 }
-<link rel="stylesheet" href="~/css/site.css" id="core-style"/>
+<link rel="stylesheet" href="~/css/site.css" id="core-style" />
 
 
 <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
     <div id="calc-select"> <!-- Divider for containing calculator options-->
         <button class="calc-button" id="standard" href="#">Standard</button>
-        <button class="calc-button" id="scientific"><a asp-area=""
-                asp-page="/ScientificCalc" style="text-decoration: none;color: #000000;">Scientific Calculator</a></button>
+        <button class="calc-button" id="scientific"><a asp-area="" asp-page="/ScientificCalc"
+                style="text-decoration: none;color: #000000;">Scientific Calculator</a></button>
         <button class="calc-button" id="programming" href="#">Programming</button>
         <button class="calc-button" id="unit" href="#">Unit Conversion</button>
         <button class="calc-button" id="input-bar" href="#">Input</button>
@@ -22,25 +22,25 @@
         <!-- Calculator contents go here,
         would likely need to be adjusted using JS
         depending on selected calculator -->
-        <div id="calc-display-back"> <!-- For use in bg styling only -->
-            <select name="weights" class="weights">
+        <div class="calc-display-back"> <!-- For use in bg styling only -->
+            <select id="weights1" class="weights">
                 <option value="pound">Pounds</option>
                 <option value="gram">Grams</option>
                 <option value="kilogram">Kilograms</option>
                 <option value="ton">Tons</option>
                 <option value="ounce">Ounces</option>
             </select>
-            <input id="calc-display">
+            <input id="calc-display" type="number">
         </div>
-        <div id="calc-display-back"> <!-- For use in bg styling only -->
-            <select name="weights" class="weights">
+        <div class="calc-display-back"> <!-- For use in bg styling only -->
+            <select id="weights2" class="weights">
                 <option value="pound">Pounds</option>
                 <option value="gram">Grams</option>
                 <option value="kilogram">Kilograms</option>
                 <option value="ton">Tons</option>
                 <option value="ounce">Ounces</option>
             </select>
-            <input id="calc-display2">
+            <input id="calc-display2" type="number">
         </div>
     </div>
     <div id="hist-select"> <!-- Divider for containing history of all operations-->
@@ -50,34 +50,65 @@
 
 
 <script>
-    function converterSubmission() {
-    const expr1 = document.getElementById("calc-display").value;
-    const expr2 = document.getElementById("calc-display2").value;
-    console.log(`recieved value 1:" ${expr1}`);
-    console.log(`recieved value 2:" ${expr2}`);
-    const parsedExpr1 = parse_expression(expr1);
-    const parsedExpr2 = parse_expression(expr2);
-    console.log(`parsed value 1:" ${parsedExpr1}`);
-    console.log(`parsed value 2:" ${parsedExpr2}`);
+    let isUpdating = false; // Make sure this is declared once outside the function
 
-    fetch("/Index?handler=converterSubmission", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ 
-            value1: parsedExpr1,
-            value2: parsedExpr2
+    function converterSubmission(sourceInputId, targetInputId, sourceUnitId, targetUnitId) {
+        if (isUpdating) return;
+
+        const sourceInput = document.getElementById(sourceInputId);
+        const targetInput = document.getElementById(targetInputId);
+        const sourceValue = parseFloat(sourceInput.value);
+        const sourceUnit = document.getElementById(sourceUnitId).value;
+        const targetUnit = document.getElementById(targetUnitId).value;
+
+        if (isNaN(sourceValue)) {
+            targetInput.value = "";
+            return;
+        }
+
+        fetch("/MassConverter?handler=converterSubmission", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                fromUnit: sourceUnit,  // fixed typo here (fromUNit → fromUnit)
+                toUnit: targetUnit,
+                value: sourceValue
             })
-    })
-        .then(res => res.json())
-        .then(data => {
-            if (data.result !== undefined) {
-                document.getElementById("calc-display1").value = `${data.result}`;
-                AddToHistory(`${data.result}`, expr);
-            } else {
-                console.log(data.error);
-            }
-        });
-}
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.result !== undefined) {
+                    isUpdating = true;
+                    targetInput.value = data.result;
+                    isUpdating = false;
+                } else {
+                    console.log(data.error);
+                }
+            });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const input1 = document.getElementById("calc-display");
+        const input2 = document.getElementById("calc-display2");
+        const select1 = document.getElementById("weights1");
+        const select2 = document.getElementById("weights2");
+
+        input1.addEventListener("input", () =>
+            converterSubmission("calc-display", "calc-display2", "weights1", "weights2")
+        );
+
+        input2.addEventListener("input", () =>
+            converterSubmission("calc-display2", "calc-display", "weights2", "weights1")
+        );
+
+        select1.addEventListener("change", () =>
+            converterSubmission("calc-display", "calc-display2", "weights1", "weights2")
+        );
+
+        select2.addEventListener("change", () =>
+            converterSubmission("calc-display", "calc-display2", "weights1", "weights2")
+        );
+    });
 </script>
