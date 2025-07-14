@@ -39,10 +39,10 @@ namespace StudentFriendlyCalculator.Pages
                 var Binary = Convert.ToInt32(data.Name, 2);//converts value to binary
                 var Hex = Convert.ToInt32(data.Name, 16);// converts value to hexadecimal
                 return new JsonResult(new {Binarydis = Binary, Hexdis = Hex });
-                @*@ other operations to be implemented
-                AND = &(val1, val2)
-                OR = |(val1, val2)
-                XOR = ^(val1, val2) *@
+                // other operations to be implemented
+                // AND = &(val1, val2)
+                // OR = |(val1, val2)
+                // XOR = ^(val1, val2) *@
             }
             catch (Exception ex)
             {

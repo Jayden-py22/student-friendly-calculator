@@ -50,7 +50,7 @@
 
 
 <script>
-    let isUpdating = false; // Make sure this is declared once outside the function
+    let isUpdating = false;
 
     function converterSubmission(sourceInputId, targetInputId, sourceUnitId, targetUnitId) {
         if (isUpdating) return;
@@ -72,7 +72,7 @@
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                fromUnit: sourceUnit,  // fixed typo here (fromUNit → fromUnit)
+                fromUnit: sourceUnit,
                 toUnit: targetUnit,
                 value: sourceValue
             })
