@@ -118,7 +118,7 @@ public class IndexModel : PageModel
                 args.Result = Math.E;
         };
 
-        // 공통 EvaluateFunction 핸들러 (재귀 처리 포함)
+        // process factorial with recursive evaluate
         EvaluateFunctionHandler functionHandler = null;
         functionHandler = (name, args) =>
         {
@@ -150,7 +150,6 @@ public class IndexModel : PageModel
         };
 
 
-        // 원래 Expression에 등록
         expr.EvaluateParameter += parameterHandler;
         expr.EvaluateFunction += functionHandler;
 
