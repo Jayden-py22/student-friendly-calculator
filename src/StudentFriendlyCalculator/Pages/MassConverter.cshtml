@@ -3,6 +3,7 @@
     ViewData["Title"] = "Mass Converter";
 }
 <link rel="stylesheet" href="~/css/site.css" id="core-style" />
+<link rel="stylesheet" href="~/css/UnitCalc.css" id="core-style" />
 
 
 <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
@@ -30,7 +31,7 @@
                 <option value="ton">Tons</option>
                 <option value="ounce">Ounces</option>
             </select>
-            <input id="calc-display" type="number">
+            <input id="calc-display" class="calc-display-style" type="number">
         </div>
         <div class="calc-display-back"> <!-- For use in bg styling only -->
             <select id="weights2" class="weights">
@@ -40,11 +41,11 @@
                 <option value="ton">Tons</option>
                 <option value="ounce">Ounces</option>
             </select>
-            <input id="calc-display2" type="number">
+            <input id="calc-display2" class="calc-display-style" type="number">
         </div>
     </div>
     <div id="hist-select"> <!-- Divider for containing history of all operations-->
-        <button id="clear-hist">Clear History</button>
+        <button class="clear-hist">Clear All History</button>
     </div>
 </div>
 
