@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Net.NetworkInformation;
-using Antlr.Runtime;
+
 namespace StudentFriendlyCalculator.Pages;
 
 [IgnoreAntiforgeryToken]
@@ -11,93 +9,41 @@ public class MassConverterModel : PageModel
 {
     private readonly ILogger<MassConverterModel> _logger;
 
-    [BindProperty]
-    public string FromUnit { get; set; }
-
-    [BindProperty]
-    public string ToUnit { get; set; }
-
-    [BindProperty]
-    public double Value { get; set; }
-
     public MassConverterModel(ILogger<MassConverterModel> logger)
     {
         _logger = logger;
     }
 
-    public void OnGet()
-    {
-    }
-
-    public IActionResult OnPostConverterSubmission(string FromUnit, string ToUnit, double Value)
+    public IActionResult OnPostConvert([FromForm] string FromUnit, [FromForm] string ToUnit, [FromForm] double Value)
     {
         try
         {
-            double result = ConvertUnits(Value, FromUnit.ToLower(), ToUnit.ToLower());
+            var result = ConvertUnits(Value, FromUnit.ToLower(), ToUnit.ToLower());
             return new JsonResult(new { result });
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Conversion failed");
-            return new JsonResult(new { error = ex.Message });
+            return new JsonResult(new { error = "Conversion error: " + ex.Message });
         }
     }
 
-
-    private double ConvertUnits(double value, string fromUnit, string toUnit)
+    private double ConvertUnits(double value, string from, string to)
     {
-        if (fromUnit == toUnit)
-            return value;
+        if (from == to) return value;
 
-        switch (fromUnit)
+        var conversions = new Dictionary<(string, string), double>
         {
-            case "pound":
-                switch (toUnit)
-                {
-                    case "gram": return value * 453.592;
-                    case "kilogram": return value * 0.453592;
-                    case "ton": return value * 0.000453592;
-                    case "ounce": return value * 16;
-                }
-                break;
-            case "gram":
-                switch (toUnit)
-                {
-                    case "pound": return value / 453.592;
-                    case "kilogram": return value / 1000;
-                    case "ton": return value / 1_000_000;
-                    case "ounce": return value / 28.3495;
-                }
-                break;
-            case "kilogram":
-                switch (toUnit)
-                {
-                    case "pound": return value / 0.453592;
-                    case "gram": return value * 1000;
-                    case "ton": return value / 1000;
-                    case "ounce": return value * 35.274;
-                }
-                break;
-            case "ton":
-                switch (toUnit)
-                {
-                    case "pound": return value / 0.000453592;
-                    case "gram": return value * 1_000_000;
-                    case "kilogram": return value * 1000;
-                    case "ounce": return value * 35274;
-                }
-                break;
-            case "ounce":
-                switch (toUnit)
-                {
-                    case "pound": return value / 16;
-                    case "gram": return value * 28.3495;
-                    case "kilogram": return value / 35.274;
-                    case "ton": return value / 35274;
-                }
-                break;
-        }
+            { ("pound", "gram"), 453.592 }, { ("pound", "kilogram"), 0.453592 }, { ("pound", "ton"), 0.000453592 }, { ("pound", "ounce"), 16 },
+            { ("gram", "pound"), 1 / 453.592 }, { ("gram", "kilogram"), 1 / 1000 }, { ("gram", "ton"), 1 / 1_000_000 }, { ("gram", "ounce"), 1 / 28.3495 },
+            { ("kilogram", "pound"), 1 / 0.453592 }, { ("kilogram", "gram"), 1000 }, { ("kilogram", "ton"), 1 / 1000 }, { ("kilogram", "ounce"), 35.274 },
+            { ("ton", "pound"), 1 / 0.000453592 }, { ("ton", "gram"), 1_000_000 }, { ("ton", "kilogram"), 1000 }, { ("ton", "ounce"), 35274 },
+            { ("ounce", "pound"), 1 / 16 }, { ("ounce", "gram"), 28.3495 }, { ("ounce", "kilogram"), 1 / 35.274 }, { ("ounce", "ton"), 1 / 35274 }
+        };
 
-        throw new ArgumentException($"Unsupported conversion from '{fromUnit}' to '{toUnit}'.");
+        if (conversions.TryGetValue((from, to), out var factor))
+            return value * factor;
+
+        throw new ArgumentException($"Unsupported conversion: {from} to {to}");
     }
 }

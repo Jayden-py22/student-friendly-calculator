@@ -1,0 +1,66 @@
+@page
+@model StudentFriendlyCalculator.Pages.MassConverterModel
+@{
+    ViewData["Title"] = "Unit Converter";
+}
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/UnitCalc.css" />
+
+<div id="functional-container">
+    <div class="calc-holder">
+        <select id="weights1" class="weights">
+            <option value="pound">Pounds</option>
+            <option value="gram">Grams</option>
+            <option value="kilogram">Kilograms</option>
+            <option value="ton">Tons</option>
+            <option value="ounce">Ounces</option>
+        </select>
+        <input id="input1" type="number" min="0" />
+    </div>
+    <div class="calc-holder">
+        <select id="weights2" class="weights">
+            <option value="pound">Pounds</option>
+            <option value="gram">Grams</option>
+            <option value="kilogram">Kilograms</option>
+            <option value="ton">Tons</option>
+            <option value="ounce">Ounces</option>
+        </select>
+        <input id="input2" type="number" min="0" />
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function convert(sourceInputId, targetInputId, sourceUnitId, targetUnitId) {
+        const value = parseFloat(document.getElementById(sourceInputId).value);
+        if (isNaN(value)) return document.getElementById(targetInputId).value = "";
+
+        const formData = new URLSearchParams();
+        formData.append("FromUnit", document.getElementById(sourceUnitId).value);
+        formData.append("ToUnit", document.getElementById(targetUnitId).value);
+        formData.append("Value", value.toString());
+
+        fetch("/MassConverter?handler=Convert", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById(targetInputId).value = data.result ?? "";
+        })
+        .catch(err => console.error(err));
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("input1").addEventListener("input", () =>
+            convert("input1", "input2", "weights1", "weights2"));
+        document.getElementById("input2").addEventListener("input", () =>
+            convert("input2", "input1", "weights2", "weights1"));
+        document.getElementById("weights1").addEventListener("change", () =>
+            convert("input1", "input2", "weights1", "weights2"));
+        document.getElementById("weights2").addEventListener("change", () =>
+            convert("input1", "input2", "weights1", "weights2"));
+    });
+</script>
+}

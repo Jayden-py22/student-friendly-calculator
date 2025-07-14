@@ -1,4 +1,5 @@
 ﻿@page
+@model StudentFriendlyCalculator.Pages.MassConverterModel
 @{
     ViewData["Title"] = "Unit Converter";
 }
@@ -47,90 +48,38 @@
 </div>
 
 
+@section Scripts {
 <script>
-    let isUpdating = false;
-
-    function converterSubmission(sourceInputId, targetInputId, sourceUnitId, targetUnitId) {
-        if (isUpdating) return;
-
-        const sourceInput = document.getElementById(sourceInputId);
-        const targetInput = document.getElementById(targetInputId);
-        const sourceValue = parseFloat(sourceInput.value);
-        const sourceUnit = document.getElementById(sourceUnitId).value;
-        const targetUnit = document.getElementById(targetUnitId).value;
-
-        console.log(`converterSubmission called with:`);
-        console.log(`  sourceInputId=${sourceInputId}, targetInputId=${targetInputId}`);
-        console.log(`  sourceUnitId=${sourceUnitId}=${sourceUnit}, targetUnitId=${targetUnitId}=${targetUnit}`);
-        console.log(`  sourceValue (parsed)=${sourceValue}`);
-
-        if (isNaN(sourceValue)) {
-            console.log(`sourceValue is NaN or invalid, clearing target input.`);
-            targetInput.value = "";
-            return;
-        }
+    function convert(sourceInputId, targetInputId, sourceUnitId, targetUnitId) {
+        const value = parseFloat(document.getElementById(sourceInputId).value);
+        if (isNaN(value)) return document.getElementById(targetInputId).value = "";
 
         const formData = new URLSearchParams();
-        formData.append("FromUnit", sourceUnit);
-        formData.append("ToUnit", targetUnit);
-        formData.append("Value", sourceValue.toString());  // convert explicitly to string
+        formData.append("FromUnit", document.getElementById(sourceUnitId).value);
+        formData.append("ToUnit", document.getElementById(targetUnitId).value);
+        formData.append("Value", value.toString());
 
-        console.log(`Sending POST data: ${formData.toString()}`);
-
-        fetch("/MassConverter?handler=ConverterSubmission", {
+        fetch("/MassConverter?handler=Convert", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: formData.toString()
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: formData
         })
-        .then(res => {
-            console.log("Response status:", res.status);
-            if (!res.ok) {
-                return res.text().then(text => {
-                    console.error("Error response body:", text || "<empty>");
-                    throw new Error(`HTTP error ${res.status}`);
-                });
-            }
-            return res.json();
-        })
+        .then(res => res.json())
         .then(data => {
-            console.log("Response JSON data:", data);
-            if (data.result !== undefined) {
-                isUpdating = true;
-                targetInput.value = data.result;
-                isUpdating = false;
-            } else {
-                console.error("Server returned error:", data.error);
-            }
+            document.getElementById(targetInputId).value = data.result ?? "";
         })
-        .catch(err => console.error("Fetch failed:", err));
+        .catch(err => console.error(err));
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-        const input1 = document.getElementById("calc-display");
-        const input2 = document.getElementById("calc-display2");
-        const select1 = document.getElementById("weights1");
-        const select2 = document.getElementById("weights2");
-
-        input1.addEventListener("input", () => {
-            converterSubmission("calc-display", "calc-display2", "weights1", "weights2");
-            console.log("input1 changed");
-        });
-
-        input2.addEventListener("input", () => {
-            converterSubmission("calc-display2", "calc-display", "weights2", "weights1");
-            console.log("input2 changed");
-        });
-
-        select1.addEventListener("change", () => {
-            converterSubmission("calc-display", "calc-display2", "weights1", "weights2");
-            console.log("select1 changed");
-        });
-
-        select2.addEventListener("change", () => {
-            converterSubmission("calc-display", "calc-display2", "weights1", "weights2");
-            console.log("select2 changed");
-        });
+        document.getElementById("calc-display").addEventListener("input", () =>
+            convert("calc-display", "calc-display2", "weights1", "weights2"));
+        document.getElementById("calc-display2").addEventListener("input", () =>
+            convert("calc-display2", "calc-display", "weights2", "weights1"));
+        document.getElementById("weights1").addEventListener("change", () =>
+            convert("calc-display", "calc-display2", "weights1", "weights2"));
+        document.getElementById("weights2").addEventListener("change", () =>
+            convert("calc-display", "calc-display2", "weights1", "weights2"));
     });
 </script>
+}
