@@ -15,12 +15,13 @@
         <button class="calc-button" id="programming" href="#">Programming</button>
         <button class="calc-button" id="unit" href="#">Unit Conversion</button>
         <button class="calc-button" id="input-bar" href="#">Input</button>
-        <!-- More calculator buttons here -->
     </div>
+    <!-- This is for the dropdown to pick what you are converting, code for actually swapping between more things not implemented -->
     <div class="calc-holder">
         <select class="unit-select">
             <option value="mass">Mass</option>
         </select>
+        <!-- First selection box -->
         <div class="calc-display-back">
             <select id="weights1" class="weights">
                 <option value="pound">Pounds</option>
@@ -29,8 +30,10 @@
                 <option value="ton">Tons</option>
                 <option value="ounce">Ounces</option>
             </select>
+            <!-- First input box -->
             <input id="calc-display" class="calc-display-style" type="number">
         </div>
+        <!-- Second selection box -->
         <div class="calc-display-back">
             <select id="weights2" class="weights">
                 <option value="pound">Pounds</option>
@@ -39,10 +42,12 @@
                 <option value="ton">Tons</option>
                 <option value="ounce">Ounces</option>
             </select>
+            <!-- Second input box -->
             <input id="calc-display2" class="calc-display-style" type="number">
         </div>
     </div>
     <div id="hist-select"> <!-- Divider for containing history of all operations-->
+        <!-- Fir -->
         <button class="clear-hist">Clear All History</button>
     </div>
 </div>
@@ -50,6 +55,7 @@
 
 @section Scripts {
 <script>
+    //Script for sending inputs in real-time to the server for updating.
     function convert(sourceInputId, targetInputId, sourceUnitId, targetUnitId) {
         const value = parseFloat(document.getElementById(sourceInputId).value);
         if (isNaN(value)) return document.getElementById(targetInputId).value = "";
@@ -70,7 +76,7 @@
         })
         .catch(err => console.error(err));
     }
-
+    //instant updating regardless of which field the user changes.
     window.addEventListener("DOMContentLoaded", () => {
         document.getElementById("calc-display").addEventListener("input", () =>
             convert("calc-display", "calc-display2", "weights1", "weights2"));
