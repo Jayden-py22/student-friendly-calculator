@@ -1,8 +1,9 @@
 ﻿@page
 @{
-    ViewData["Title"] = "Mass Converter";
+    ViewData["Title"] = "Unit Converter";
 }
 <link rel="stylesheet" href="~/css/site.css" id="core-style" />
+<link rel="stylesheet" href="~/css/UnitCalc.css" id="core-style" />
 
 
 <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
@@ -19,10 +20,7 @@
         <select class="unit-select">
             <option value="mass">Mass</option>
         </select>
-        <!-- Calculator contents go here,
-        would likely need to be adjusted using JS
-        depending on selected calculator -->
-        <div class="calc-display-back"> <!-- For use in bg styling only -->
+        <div class="calc-display-back">
             <select id="weights1" class="weights">
                 <option value="pound">Pounds</option>
                 <option value="gram">Grams</option>
@@ -30,9 +28,9 @@
                 <option value="ton">Tons</option>
                 <option value="ounce">Ounces</option>
             </select>
-            <input id="calc-display" type="number">
+            <input id="calc-display" class="calc-display-style" type="number">
         </div>
-        <div class="calc-display-back"> <!-- For use in bg styling only -->
+        <div class="calc-display-back">
             <select id="weights2" class="weights">
                 <option value="pound">Pounds</option>
                 <option value="gram">Grams</option>
@@ -40,11 +38,11 @@
                 <option value="ton">Tons</option>
                 <option value="ounce">Ounces</option>
             </select>
-            <input id="calc-display2" type="number">
+            <input id="calc-display2" class="calc-display-style" type="number">
         </div>
     </div>
     <div id="hist-select"> <!-- Divider for containing history of all operations-->
-        <button id="clear-hist">Clear History</button>
+        <button class="clear-hist">Clear All History</button>
     </div>
 </div>
 

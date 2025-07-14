@@ -4,7 +4,7 @@
     ViewData["Title"] = "Equation Solver";
     Layout = "_Layout";
 }
-<link rel="stylesheet" href="~/css/scientificCalc.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/EquationCalc.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
 <div id="functional-container">
@@ -19,34 +19,35 @@
                 <input id="calc-display" asp-for="Equation" />
             </div>
             <div class="calc-interface">
-                <!-- Function buttons -->
                 <button type="button" class="calc-button-btwn">cos⁻¹</button>
                 <button type="button" class="calc-button-btwn">sin⁻¹</button>
                 <button type="button" class="calc-button-btwn">tan⁻¹</button>
-                <button type="button" class="calc-button-btwn">√</button>
                 <button type="button" class="calc-button-white">AC</button>
                 <button type="button" class="calc-button-white">del</button>
-                <button type="button" class="calc-button-btwn">Δ</button>
-                <button type="button" class="calc-button-btwn">x²</button>
-                <!-- Numeric and operators -->
+
+                <button type="button" class="calc-button-btwn">√</button>
                 <button type="button" class="calc-button">7</button>
                 <button type="button" class="calc-button">8</button>
                 <button type="button" class="calc-button">9</button>
                 <button type="button" class="calc-button-op">÷</button>
+
+                <button type="button" class="calc-button-btwn">Δ</button>
                 <button type="button" class="calc-button">4</button>
                 <button type="button" class="calc-button">5</button>
                 <button type="button" class="calc-button">6</button>
-                <button type="button" class="calc-button">2</button>
-                <button type="button" class="calc-button">1</button>
                 <button type="button" class="calc-button-op">×</button>
+                
+                <button type="button" class="calc-button-btwn">x²</button>
+                <button type="button" class="calc-button">1</button>
+                <button type="button" class="calc-button">2</button>
                 <button type="button" class="calc-button">3</button>
                 <button type="button" class="calc-button-op">−</button>
-                <button type="button" class="calc-button">0</button>
+
+                <button type="button" class="calc-button-op">x</button>
                 <button type="button" class="calc-button-white">.</button>
-                <button type="button" class="calc-button">x</button>
-                <button type="button" class="calc-button-op">+</button>
-                <!-- Submit button -->
+                <button type="button" class="calc-button">0</button>
                 <button type="submit" class="calc-button-white">=</button>
+                <button type="button" class="calc-button-op">+</button>
             </div>
             @if (!string.IsNullOrEmpty(Model.Solution))
             {

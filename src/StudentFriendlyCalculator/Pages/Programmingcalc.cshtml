@@ -18,46 +18,45 @@
         <!-- More calculator buttons here -->
     </div>
     <div class="calc-holder">
-        <!-- Calculator contents go here,
-        would likely need to be adjusted using JS
-        depending on selected calculator -->
         <div id="calc-display-back">
-            <!-- For use in bg styling only -->
             <input id="calc-display">
         </div>
         <div class="calc-interface">
+            <button class="calc-button-white">(</button>
+            <button class="calc-button-white">)</button>
+            <button class="calc-button-white">AC</button>
+            <button class="calc-button-white">del</button>
 
-            <button>A</button>
-            <button>(</button>
-            <button>)</button>
-            <button>AC</button>
-            <button>del</button>
+            <button class="calc-button-btwn">A</button>
+            <button class="calc-button-btwn">B</button>
+            <button class="calc-button-btwn">C</button>
+            <button class="calc-button-btwn">Dec</button>
+            
+            <button class="calc-button-btwn">D</button>
+            <button class="calc-button-btwn">E</button>
+            <button class="calc-button-btwn">F</button>
+            <button class="calc-button-btwn">Hex</button>
 
-            <button>B</button>
             <button>7</button>
             <button>8</button>
             <button>9</button>
-            <button>Dec</button>
+            <button class="calc-button-op">AND</button>
 
-            <button>C</button>
             <button>4</button>
             <button>5</button>
             <button>6</button>
-            <button>Hex</button>
-
-            <button>D</button>
+            <button class="calc-button-op">OR</button>
+            
             <button>1</button>
             <button>2</button>
             <button>3</button>
-            <button>bin</button>
+            <button class="calc-button-op">NOR</button>
 
-            <button>E</button>
-            <button>F</button>
-            <button>AND</button>
+            <button class="calc-button-white">bin</button>
             <button>0</button>
-            <button>=</button>
-            <button>XOR</button>
-            <button>OR</button>
+            <button class="calc-button-white" id="double-size">=</button>
+            <button class="calc-button-op">XOR</button>
+            
         </div>
     </div>
     <div id="hist-select">
