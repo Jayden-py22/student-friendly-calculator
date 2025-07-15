@@ -4,7 +4,7 @@
 // Write your JavaScript code.
 function parse_expression(expression){
     const lower_expr = expression.toLowerCase();
-    let tokens = lower_expr.split(/(\(|\)|arcsin|sin⁻¹|arccos|cos⁻¹|arctan|tan⁻¹|log|ln|π|sin|\^|cos|tan|pi|%|\+|×|-|!|e|𝑒|÷)/)
+    let tokens = lower_expr.split(/(\(|\)|arcsin|sin⁻¹|arccos|cos⁻¹|arctan|tan⁻¹|log|ln|π|x²|√|sin|\^|cos|tan|pi|%|\+|×|-|!|e|𝑒|÷)/)
     tokens = tokens.filter(t => t !== '');
     // console.log("Pre-parse:", {expression})
     const map = {
@@ -24,7 +24,7 @@ function parse_expression(expression){
         "÷": "/",
         "×": "*",
         "𝑒": "e",
-        "√": "sqrt"
+        "√": "Sqrt"
     };
     let mapped = tokens.map(t => {
         return map[t] !== undefined ? map[t] : t;
@@ -159,25 +159,29 @@ function initDisplay() {
 
 // preprocess the button click event
 function calcButtonHandler(value) {
-    // console.log("Button clicked:", value);
-    if(value == "del"){
-        deleteFromDisplay();
+    if (value === "del")            deleteFromDisplay();
+    else if (value === "AC")        initDisplay();
+    else if (value === "=")         calcSubmission();
+    else if (value === "x²") {
+        const inputBox = document.getElementById("calc-display");
+        if (inputBox) {
+            const current = inputBox.value;
+            if (current.slice(-1) === "x") {
+                // If it ends in x, just add ^2.
+                inputBox.value += "^2";
+            } else {
+                // Otherwise insert x^2 whole string
+                inputBox.value += "x^2";
+            }
+        }
     }
-    else if(value == "AC"){
-        initDisplay();
-    }
-    else if(value == "="){
-        calcSubmission();
-    }
-    else if(value == "×"){
-        appendToDisplay("×");
-    }
-    else if(value == "÷"){
-        appendToDisplay("÷");
-    }
-    else {
-        appendToDisplay(value);
-    }
+    else if (value === "√")         appendToDisplay("√(");
+    else if (value === "π")         appendToDisplay("π");
+    else if (["sin","cos","tan"].includes(value))
+                                     appendToDisplay(value+"(");
+    else if (value === "×")         appendToDisplay("×");
+    else if (value === "÷")         appendToDisplay("÷");
+    else                            appendToDisplay(value);
 }
 
 let histlist = [];
@@ -483,59 +487,7 @@ sciCalcButton.addEventListener("click", () => {
 
 // Switch to equation solver
 const eqCalcButton = document.querySelector("#equation");
-eqCalcButton.addEventListener("click", () => {
-    clearAllCalcStyles();
-    equationStylesheet.disabled = false;
-    calcHolder.innerHTML = `
-        <form method="post" asp-page-handler="Solve">
-            <div id="calc-display-back">
-                <input id="calc-display" asp-for="Equation" />
-            </div>
-            <div class="calc-interface">
-                <button type="button" class="calc-button-btwn">cos⁻¹</button>
-                <button type="button" class="calc-button-btwn">sin⁻¹</button>
-                <button type="button" class="calc-button-btwn">tan⁻¹</button>
-                <button type="button" class="calc-button-white">AC</button>
-                <button type="button" class="calc-button-white">del</button>
-
-                <button type="button" class="calc-button-btwn">√</button>
-                <button type="button" class="calc-button">7</button>
-                <button type="button" class="calc-button">8</button>
-                <button type="button" class="calc-button">9</button>
-                <button type="button" class="calc-button-op">÷</button>
-
-                <button type="button" class="calc-button-btwn">Δ</button>
-                <button type="button" class="calc-button">4</button>
-                <button type="button" class="calc-button">5</button>
-                <button type="button" class="calc-button">6</button>
-                <button type="button" class="calc-button-op">×</button>
-                
-                <button type="button" class="calc-button-btwn">x²</button>
-                <button type="button" class="calc-button">1</button>
-                <button type="button" class="calc-button">2</button>
-                <button type="button" class="calc-button">3</button>
-                <button type="button" class="calc-button-op">−</button>
-
-                <button type="button" class="calc-button-op">x</button>
-                <button type="button" class="calc-button-white">.</button>
-                <button type="button" class="calc-button">0</button>
-                <button type="submit" class="calc-button-white">=</button>
-                <button type="button" class="calc-button-op">+</button>
-            </div>
-            @if (!string.IsNullOrEmpty(Model.Solution))
-            {
-                <div class="solution-display">
-                    <strong>Solution:</strong> @Model.Solution
-                </div>
-            }
-        </form>
-    `;
-
-    // Bind the solve button to trigger calculation -- DISABLED BY DEFAULT FOR EQUATION
-    // document.querySelector("#solve-btn").addEventListener("click", () => {
-    //     calcSubmission();
-    // });
-});
+eqCalcButton.addEventListener("click", () => window.location.href = "/EquationSolver");
 
 // Switch to programming calculator
 const pgCalcButton = document.querySelector("#programming");
