@@ -330,6 +330,25 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    const path = window.location.pathname.toLowerCase();
+    if (path === "/index" || path === "/") {
+        const params = new URLSearchParams(window.location.search);
+        const mode = params.get("mode");
+
+        if (mode === "scientific") {
+            document.querySelector("#scientific")?.click();
+        } else if (mode === "programming") {
+            document.querySelector("#programming")?.click();
+        } else {
+            document.querySelector("#standard")?.click();
+        }
+
+        const container = document.getElementById("functional-container");
+        if (container) {
+            container.style.visibility = "visible";
+        }
+    }
 });
 
 // This handles math expression submission
@@ -376,7 +395,7 @@ inputBox.addEventListener("keyup", function(event) {
 });
 
 // Define elements for calculator switching
-const calcHolder = document.querySelector(".calc-holder");
+const calcContainer = document.querySelector(".calc-interface");
 const standardStylesheet = document.getElementById("standard-style");
 const scientificStylesheet = document.getElementById("scientific-style");
 const equationStylesheet = document.getElementById("equation-style");
@@ -397,38 +416,37 @@ const standardCalcButton = document.querySelector("#standard");
 standardCalcButton.addEventListener("click", () => {
     clearAllCalcStyles();
     standardStylesheet.disabled = false;
-    calcHolder.innerHTML = `
-            <div id="calc-display-back">
-            <input id="calc-display">
-        </div>
-        <div class="calc-interface">
-            
-            <button>(</button>
-            <button>)</button>
-            <button>AC</button>
-            <button>del</button>
-
+    calcContainer.innerHTML = `
+            <!-- First Row buttons  -->
+            <button class="calc-button-white">(</button>
+            <button class="calc-button-white">)</button>
+            <button class="calc-button-white">AC</button>
+            <button class="calc-button-white">del</button>
+            <!-- Second Row buttons  -->
             <button>7</button>
             <button>8</button>
             <button>9</button>
-            <button>*</button>
-
+            <button class="calc-button-op">÷</button>
+            <!-- Third Row buttons  -->
             <button>4</button>
             <button>5</button>
             <button>6</button>
-            <button>-</button>
-
+            <button class="calc-button-op">×</button>
+            <!-- Fourth Row buttons  -->
             <button>1</button>
             <button>2</button>
             <button>3</button>
-            <button>+</button>
-
-            <button>.</button>
+            <button class="calc-button-op">-</button>
+            <!-- Fifth Row buttons  -->
+            <button class="calc-button-white">.</button>
             <button>0</button>
-            <button>=</button>
-            <button>/</button>
-        </div>
+            <button class="calc-button-white">=</button>
+            <button class="calc-button-op">+</button>
     `;
+
+    document.querySelector("#solve-btn").addEventListener("click", () => {
+        calcSubmission();
+    });
 })
 
 // Switch to scientific calculator
@@ -436,53 +454,48 @@ const sciCalcButton = document.querySelector("#scientific");
 sciCalcButton.addEventListener("click", () => {
     clearAllCalcStyles();
     scientificStylesheet.disabled = false;
-    calcHolder.innerHTML = `
-            <div id="calc-display-back">
-            <input id="calc-display">
-        </div>
-        <div class="calc-interface">
-            
-            <button>cos⁻¹</button>
-            <button>sin⁻¹</button>
-            <button>tan⁻¹</button>
-            <button>cos</button>
-            <button>sin</button>
-            <button>tan</button>
-
-            <button>logₓ</button>
-            <button>abs</button>
-            <button>(</button>
-            <button>)</button>
-            <button>AC</button>
-            <button>del</button>
-            <button>log</button>
-            <button>e</button>
+    calcContainer.innerHTML = `
+            <button class="calc-button-btwn">cos⁻¹</button>
+            <button class="calc-button-btwn">sin⁻¹</button>
+            <button class="calc-button-btwn">tan⁻¹</button>
+            <button class="calc-button-btwn">cos</button>
+            <button class="calc-button-btwn">sin</button>
+            <button class="calc-button-btwn">tan</button>
+            <button class="calc-button-btwn">logₓ</button>
+            <button class="calc-button-btwn">abs</button>
+            <button class="calc-button-white">(</button>
+            <button class="calc-button-white">)</button>
+            <button class="calc-button-white">AC</button>
+            <button class="calc-button-white">del</button>
+            <button class="calc-button-btwn">log</button>
+            <button class="calc-button-btwn">e</button>
             <button>1</button>
             <button>2</button>
             <button>3</button>
-            <button>+</button>
-            <button>ln</button>
-            <button>π</button>
+            <button class="calc-button-op">+</button>
+            <button class="calc-button-btwn">ln</button>
+            <button class="calc-button-btwn">π</button>
             <button>4</button>
             <button>5</button>
             <button>6</button>
-            <button>-</button>
-
-            <button>%</button>
-            <button>!</button>
+            <button class="calc-button-op">-</button>
+            <button class="calc-button-btwn">%</button>
+            <button class="calc-button-btwn">!</button>
             <button>7</button>
             <button>8</button>
             <button>9</button>
-            <button>×</button>
-
-            <button>√</button>
-            <button>^</button>
-            <button>.</button>
+            <button class="calc-button-op">×</button>
+            <button class="calc-button-btwn">√</button>
+            <button class="calc-button-btwn">^</button>
+            <button class="calc-button-white">.</button>
             <button>0</button>
-            <button>=</button>
-            <button>÷</button>
-        </div>
+            <button class="calc-button-white">=</button>
+            <button class="calc-button-op">÷</button>
     `;
+
+    document.querySelector("#solve-btn").addEventListener("click", () => {
+        calcSubmission();
+    });
 })
 
 // Switch to equation solver
@@ -494,47 +507,35 @@ const pgCalcButton = document.querySelector("#programming");
 pgCalcButton.addEventListener("click", () => {
     clearAllCalcStyles();
     programmingStylesheet.disabled = false;
-    calcHolder.innerHTML = `
-        <div id="calc-display-back">
-            <input id="calc-display">
-        </div>
-        <div class="calc-interface">
+    calcContainer.innerHTML = `
             <button class="calc-button-white">(</button>
             <button class="calc-button-white">)</button>
             <button class="calc-button-white">AC</button>
             <button class="calc-button-white">del</button>
-
             <button class="calc-button-btwn">A</button>
             <button class="calc-button-btwn">B</button>
             <button class="calc-button-btwn">C</button>
             <button class="calc-button-btwn">Dec</button>
-            
             <button class="calc-button-btwn">D</button>
             <button class="calc-button-btwn">E</button>
             <button class="calc-button-btwn">F</button>
             <button class="calc-button-btwn">Hex</button>
-
             <button>7</button>
             <button>8</button>
             <button>9</button>
             <button class="calc-button-op">AND</button>
-
             <button>4</button>
             <button>5</button>
             <button>6</button>
             <button class="calc-button-op">OR</button>
-            
             <button>1</button>
             <button>2</button>
             <button>3</button>
             <button class="calc-button-op">NOR</button>
-
             <button class="calc-button-white">bin</button>
             <button>0</button>
             <button class="calc-button-white" id="double-size">=</button>
             <button class="calc-button-op">XOR</button>
-            
-        </div>
     `;
 
     // Bind the solve button to trigger calculation
@@ -545,34 +546,4 @@ pgCalcButton.addEventListener("click", () => {
 
 // Switch to unit converter
 const utConvButton = document.querySelector("#unit");
-utConvButton.addEventListener("click", () => {
-    clearAllCalcStyles();
-    unitStylesheet.disabled = false;
-    calcHolder.innerHTML = `
-        <select class="unit-select">
-            <option value="mass">Mass</option>
-        </select>
-        <div class="calc-display-back">
-            <select id="weights1" class="weights">
-                <option value="pound">Pounds</option>
-                <option value="gram">Grams</option>
-                <option value="kilogram">Kilograms</option>
-                <option value="ton">Tons</option>
-                <option value="ounce">Ounces</option>
-            </select>
-            <input id="calc-display" class="calc-display-style" type="number">
-        </div>
-        <div class="calc-display-back">
-            <select id="weights2" class="weights">
-                <option value="pound">Pounds</option>
-                <option value="gram">Grams</option>
-                <option value="kilogram">Kilograms</option>
-                <option value="ton">Tons</option>
-                <option value="ounce">Ounces</option>
-            </select>
-            <input id="calc-display2" class="calc-display-style" type="number">
-        </div>
-    `;
-
-    // May be needed--add binding for element or nah?
-});
+utConvButton.addEventListener("click", () => window.location.href = "/MassConverter");

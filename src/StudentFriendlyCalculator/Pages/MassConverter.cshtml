@@ -8,13 +8,12 @@
 
 
 <div id="functional-container"> <!-- Container for all functional elements pertaining to calculator -->
-    <div id="calc-select"> <!-- Divider for containing calculator options-->
-        <button class="calc-button" id="standard" href="#">Standard</button>
-        <button class="calc-button" id="scientific"><a asp-area="" asp-page="/ScientificCalc"
-                style="text-decoration: none;color: #000000;">Scientific Calculator</a></button>
-        <button class="calc-button" id="programming" href="#">Programming</button>
-        <button class="calc-button" id="unit" href="#">Unit Conversion</button>
-        <button class="calc-button" id="input-bar" href="#">Input</button>
+    <div id="calc-select">
+        <a href="/Index?mode=standard"><button class="calc-button" id="standard" href="#">Standard</button></a>
+        <a href="/Index?mode=scientific"><button class="calc-button" id="scientific" href="#">Scientific</button></a>
+        <a href="/Index?mode=programming"><button class="calc-button" id="programming" href="#">Programming</button></a>
+        <a href="#"><button class="calc-button" id="equation" href="#">Equation</button></a>
+        <a href="#"><button class="calc-button" id="unit" href="#">Unit</button></a>
     </div>
     <!-- This is for the dropdown to pick what you are converting, code for actually swapping between more things not implemented -->
     <div class="calc-holder">
