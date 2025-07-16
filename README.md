@@ -34,3 +34,11 @@ Team communication is conducted through a team Discord server in addition to a S
 |Create & Display Presentations      |Yucheol Son, Allyn Crane|
 |Submit Team Assignments             |Nathaniel Dodson|
 ## Reflections
+During our meeting, we identified the following things that went well:
+* We had little to no conflict with our project; everyone was generally on the same page and discussions were level-headed, allowing for a generally smooth and effective development process
+* There was a widespread willingness to collaborate and find personal specializations​, as well as assist others in their code or tasks to ensure the project met the light of day
+* The self-led learning process (on trying to understand ASP.NET and how the JavaScript and C# worked with each other) went really well, and was accelerated by the addition of libraries like NCalc to help us further understand the framework of what we were building
+That being said, there were also some challenges and issues that cropped up, notably:
+* Due to our development process, multiple different calculators were being developed at once, which led to differing implementations depending on the calculator in question. This led to issues later down the line when attempting to unify all the features into one page
+* Mobile view was mostly completed, but due to CSS being worked on at the same time, broke other features and still needs to be fully reintegrated with the new design direction (and across all pages)
+* Some additional features of a few set calculators (specifically, the unit converter and programming calculator) still need additional features to be fully functional. Lack of implementation was mostly due to unexpected complications in development and time constraints
